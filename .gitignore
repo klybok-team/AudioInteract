@@ -1,0 +1,9 @@
+.vs
+bin
+obj
+Release
+UpgradeLog.htm
+*.csproj.user
+/src/packages
+*.user
+.gitattributes
