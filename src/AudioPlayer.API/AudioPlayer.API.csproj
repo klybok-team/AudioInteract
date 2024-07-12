@@ -16,12 +16,14 @@
 	
   <ItemGroup>
     <PackageReference Include="EXILED" Version="9.0.0-alpha.10" />
-    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
 	<AdditionalFiles Include="../../stylecop.json" />
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SCPSLAudioApi">
+      <HintPath>..\..\..\CompileFiles\SCPSLAudioApi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
 </Project>

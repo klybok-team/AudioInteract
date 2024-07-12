@@ -22,6 +22,9 @@
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="SCPSLAudioApi">
+      <HintPath>..\..\..\CompileFiles\SCPSLAudioApi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
 </Project>

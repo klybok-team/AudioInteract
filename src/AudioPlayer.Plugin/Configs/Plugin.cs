@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Configs;
+namespace AudioPlayer.Plugin.Configs;
 
 using System.ComponentModel;
 using Exiled.API.Interfaces;

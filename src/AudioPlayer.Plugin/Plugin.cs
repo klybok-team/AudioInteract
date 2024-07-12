@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer;
+namespace AudioPlayer.Plugin;
 
 using Exiled.API.Features;
 using HarmonyLib;
