@@ -66,6 +66,6 @@ public static class API
 
         NpcToSettings.Add(npc, new());
 
-        return true;
+        return NpcToSettings.ContainsKey(npc);
     }
 }
