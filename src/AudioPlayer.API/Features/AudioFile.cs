@@ -3,6 +3,9 @@
 using Exiled.API.Features;
 using VoiceChat;
 
+/// <summary>
+/// Creates audio file to easy interact with API.
+/// </summary>
 public class AudioFile
 {
     /// <summary>
@@ -26,11 +29,14 @@ public class AudioFile
     public VoiceChatChannel VoiceChannel { get; set; } = VoiceChatChannel.Intercom;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AudioFile"/> class.
+    /// Gets or sets ID of bot. If ID is negative - will create new bot with random ID.
     /// </summary>
-    /// <param name="filePath">Path to audio file.</param>
-    public AudioFile(string filePath)
+    public int BotId { get; set; } = -1;
+
+    public bool Play()
     {
-        this.FilePath = filePath;
+
+
+        return true;
     }
 }
