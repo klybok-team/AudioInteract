@@ -68,4 +68,37 @@ public static class API
 
         return NpcToSettings.ContainsKey(npc);
     }
+
+    /// <summary>
+    /// Destroyes NPC.
+    /// </summary>
+    /// <param name="npc">NPC to destroy.</param>
+    /// <returns>Indicates NPC is successfuly destroyed or not.</returns>
+    public static bool DestroyNPC(Npc npc)
+    {
+        if (npc == null)
+        {
+            return false;
+        }
+
+        if (NpcToSettings.TryGetValue(npc, out NPCSettings settings))
+        {
+            settings.AudioPlayerBase?.OnDestroy();
+
+            NpcToSettings.Remove(npc);
+        }
+
+        try
+        {
+            npc.Destroy();
+
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error(ex);
+
+            return false;
+        }
+    }
 }
