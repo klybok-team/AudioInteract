@@ -5,7 +5,6 @@
 namespace AudioPlayer.API.Features;
 
 using Exiled.API.Features;
-using Exiled.CreditTags;
 using NVorbis;
 
 /// <summary>

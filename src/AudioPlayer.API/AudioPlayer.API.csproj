@@ -26,5 +26,8 @@
       <HintPath>..\..\..\CompileFiles\SCPSLAudioApi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\CompileFiles\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

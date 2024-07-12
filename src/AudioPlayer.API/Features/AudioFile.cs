@@ -1,4 +1,8 @@
-﻿namespace AudioPlayer.API.Features;
+﻿// <copyright file="AudioFile.cs" company="Klybok Team">
+// Copyright (c) Klybok Team. All rights reserved.
+// </copyright>
+
+namespace AudioPlayer.API.Features;
 
 using Exiled.API.Features;
 using VoiceChat;
