@@ -9,6 +9,7 @@ using CentralAuth;
 using Exiled.API.Features;
 using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
+using UnityEngine;
 
 /// <summary>
 /// Main API class to interact with NPC and SCPSLAudioPlayer.
@@ -16,23 +17,54 @@ using SCPSLAudioApi.AudioCore;
 public static class API
 {
     /// <summary>
-    /// Allow to get settings of NPC.
+    /// Gets settings of NPC.
     /// </summary>
-    public static Dictionary<Npc, NPCSettings> NpcToSettings = new();
+    public static Dictionary<Npc, NPCSettings> NpcToSettings { get; private set; } = new();
 
     /// <summary>
     /// Creates new NPC and creates settings for him.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="role"></param>
-    /// <param name="id"></param>
-    /// <param name="userID"></param>
-    /// <returns></returns>
-    public static bool CreateNPC(string name, RoleTypeId role = RoleTypeId.Overwatch, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
+    /// <param name="name">Name setted to NPC.</param>
+    /// <param name="role">Role setted to NPC.</param>
+    /// <param name="id">ID setted to NPC.</param>
+    /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
+    /// <param name="position">Position setted to NPC. null = don't set.</param>
+    /// <returns>Indicates NPC is successfuly created or not.</returns>
+    public static bool CreateNPC(string name, RoleTypeId role = RoleTypeId.Overwatch, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId, Vector3? position = null)
     {
-        var npc = Npc.Spawn(name, role, id, userID);
+        try
+        {
+            var npc = Npc.Spawn(name, role, id, userID, position);
 
-        NpcToSettings.Add(npc, new(npc.Id));
+            NpcToSettings.Add(npc, new(npc.Id));
+
+            return npc != null;
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error(ex);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Creates settings for NPC.
+    /// </summary>
+    /// <param name="npc">NPC to set settings.</param>
+    /// <returns>Indicates settings is successfuly created or not.</returns>
+    public static bool AddSetingsToNPC(Npc npc)
+    {
+        if (npc == null)
+        {
+            return false;
+        }
+
+        if (NpcToSettings.ContainsKey(npc))
+        {
+            return false;
+        }
+
+        NpcToSettings.Add(npc, new());
 
         return true;
     }
