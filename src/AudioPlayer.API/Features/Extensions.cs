@@ -56,7 +56,7 @@ public static class Extensions
     /// Convert file to playable track.
     /// </summary>
     /// <param name="audioFile">AudioFile to convert.</param>
-    /// <returns>Is file can be converted and ready to be played.</returns>
+    /// <returns>Returns null if file wasn't be converted. Returns new file class with edited path if was.</returns>
     public static AudioFile? ConvertToOgg(AudioFile audioFile)
     {
         return null;
