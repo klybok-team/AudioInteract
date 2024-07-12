@@ -5,6 +5,7 @@
 namespace AudioPlayer.API.Features;
 
 using Exiled.API.Features;
+using Exiled.CreditTags;
 using NVorbis;
 
 /// <summary>
@@ -20,28 +21,28 @@ public static class Extensions
     /// <summary>
     /// Checks the path for playable track.
     /// </summary>
-    /// <param name="path">Path to file.</param>
+    /// <param name="audioFile">AudioFile to check.</param>
     /// <returns>Is file exists and ready to be played.</returns>
-    public static bool CheckTrack(string path)
+    public static bool CheckTrack(AudioFile audioFile)
     {
         if (!Directory.Exists(FolderPath))
         {
             Directory.CreateDirectory(FolderPath);
         }
 
-        if (!File.Exists(path))
+        if (!File.Exists(audioFile.FilePath))
         {
             return false;
         }
 
-        if (Path.GetExtension(path) != ".ogg")
+        if (Path.GetExtension(audioFile.FilePath) != ".ogg")
         {
-            VorbisReader vorbisReader = new(path);
+            VorbisReader vorbisReader = new(audioFile.FilePath);
 
             Log.Info(vorbisReader.Channels);
             Log.Info(vorbisReader.NominalBitrate);
 
-            return ConvertToOgg(path);
+            return ConvertToOgg(audioFile);
         }
 
         return true;
@@ -50,12 +51,10 @@ public static class Extensions
     /// <summary>
     /// Convert file to playable track.
     /// </summary>
-    /// <param name="path">Path to file.</param>
+    /// <param name="audioFile">AudioFile to convert.</param>
     /// <returns>Is file can be converted and ready to be played.</returns>
-    public static bool ConvertToOgg(string path)
+    public static bool ConvertToOgg(AudioFile audioFile)
     {
-
-        Plugi
 
         return true;
     }
