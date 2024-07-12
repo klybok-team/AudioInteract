@@ -1,14 +1,13 @@
-﻿// <copyright file="Plugin.cs" company="Klybok Team">
+﻿// <copyright file="PluginInstance.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
 namespace AudioPlayer.Plugin;
 
-using Exiled.API.Features;
 using HarmonyLib;
 
 /// <inheritdoc/>
-public class Plugin : Exiled.API.Features.Plugin<Configs.Plugin>
+public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
 {
     /// <summary/>
     public const string HarmonyID = $"AudioPlayer - Klybok Team";

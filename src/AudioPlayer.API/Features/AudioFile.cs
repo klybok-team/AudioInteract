@@ -33,10 +33,12 @@ public class AudioFile
     /// </summary>
     public int BotId { get; set; } = -1;
 
+    /// <summary>
+    /// Start playing music.
+    /// </summary>
+    /// <returns>Is music started or not.</returns>
     public bool Play()
     {
-
-
         return true;
     }
 }

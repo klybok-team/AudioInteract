@@ -30,6 +30,6 @@ public class EventHandlers
     /// </summary>
     public void OnWaitingForPlayers_EnableMusic()
     {
-
+        return;
     }
 }

@@ -54,6 +54,9 @@ public static class Extensions
     /// <returns>Is file can be converted and ready to be played.</returns>
     public static bool ConvertToOgg(string path)
     {
+
+        Plugi
+
         return true;
     }
 }
