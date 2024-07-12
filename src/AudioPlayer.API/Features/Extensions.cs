@@ -22,8 +22,9 @@ public static class Extensions
     /// Checks the path for playable track.
     /// </summary>
     /// <param name="audioFile">AudioFile to check.</param>
+    /// <param name="editedFile">Gets the edited file if he was edited.</param>
     /// <returns>Is file exists and ready to be played.</returns>
-    public static bool CheckTrack(AudioFile audioFile)
+    public static bool CheckTrack(AudioFile audioFile, out AudioFile? editedFile)
     {
         if (!Directory.Exists(FolderPath))
         {
@@ -32,6 +33,7 @@ public static class Extensions
 
         if (!File.Exists(audioFile.FilePath))
         {
+            editedFile = null;
             return false;
         }
 
@@ -42,9 +44,11 @@ public static class Extensions
             Log.Info(vorbisReader.Channels);
             Log.Info(vorbisReader.NominalBitrate);
 
-            return ConvertToOgg(audioFile);
+            editedFile = ConvertToOgg(audioFile);
+            return editedFile != null;
         }
 
+        editedFile = null;
         return true;
     }
 
@@ -53,9 +57,8 @@ public static class Extensions
     /// </summary>
     /// <param name="audioFile">AudioFile to convert.</param>
     /// <returns>Is file can be converted and ready to be played.</returns>
-    public static bool ConvertToOgg(AudioFile audioFile)
+    public static AudioFile? ConvertToOgg(AudioFile audioFile)
     {
-
-        return true;
+        return null;
     }
 }
