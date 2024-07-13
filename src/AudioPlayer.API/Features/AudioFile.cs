@@ -13,6 +13,23 @@ using VoiceChat;
 public class AudioFile
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="AudioFile"/> class.
+    /// </summary>
+    /// <param name="filePath">Path to played file.</param>
+    /// <param name="isLooped">Is track looped or not.</param>
+    /// <param name="volume">Volume of track.</param>
+    /// <param name="voicechannel">Voice channel of track.</param>
+    /// <param name="botid">Bot ID.</param>
+    public AudioFile(string filePath, bool isLooped = false, int volume = 75, VoiceChatChannel voicechannel = VoiceChatChannel.Intercom, int botid = -1)
+    {
+        this.FilePath = filePath;
+        this.IsLooped = isLooped;
+        this.Volume = volume;
+        this.VoiceChannel = voicechannel;
+        this.BotId = botid;
+    }
+
+    /// <summary>
     /// Gets or sets path to audio file. Default leads to EXILED root directory (EXILED/Audio/track.ogg).
     /// </summary>
     public string FilePath { get; set; } = Path.Combine(Paths.Exiled, "Audio", "track.ogg");
@@ -33,25 +50,7 @@ public class AudioFile
     public VoiceChatChannel VoiceChannel { get; set; } = VoiceChatChannel.Intercom;
 
     /// <summary>
-    /// Gets or sets ID of bot. If ID is negative - will create new bot with random ID.
+    /// Gets or sets ID of bot. If ID is negative, API will create new bot with random ID.
     /// </summary>
     public int BotId { get; set; } = -1;
-
-    /// <summary>
-    /// Start playing music.
-    /// </summary>
-    /// <returns>Is music started or not.</returns>
-    public bool Play()
-    {
-        return true;
-    }
-
-    /// <summary>
-    /// Stop playing music.
-    /// </summary>
-    /// <returns>Is music started or not.</returns>
-    public bool Stop()
-    {
-        return true;
-    }
 }

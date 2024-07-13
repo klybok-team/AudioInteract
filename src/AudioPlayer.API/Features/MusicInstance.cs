@@ -11,7 +11,7 @@ using SCPSLAudioApi.AudioCore;
 /// <summary>
 /// Music Instance API for NPC.
 /// </summary>
-public class MusicInstance
+public partial class MusicInstance
 {
     private readonly AudioPlayerBase audioPlayerBase = new();
 
@@ -38,7 +38,7 @@ public class MusicInstance
     /// <summary>
     /// Gets or sets players who recive playing music.
     /// </summary>
-    [Obsolete("Use plays for with IDs. Ignore this if you don't care.")]
+    [Obsolete("Use plays for with IDs (int). Ignore this if you don't care.")]
     public List<Player> PlaysForPlayers
     {
         get
@@ -63,4 +63,61 @@ public class MusicInstance
     /// Gets <see cref="AudioPlayerBase"/> main class.
     /// </summary>
     public AudioPlayerBase AudioPlayerBase => this.audioPlayerBase;
+
+    /// <summary>
+    /// Gets track queue. Doesn't show current playing track.
+    /// </summary>
+    public List<string> TrackQueue => this.AudioPlayerBase.AudioToPlay;
+
+    /// <summary>
+    /// Gets current playing track.
+    /// </summary>
+    public string PlayingTrack => this.AudioPlayerBase.CurrentPlay;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether current track are looped or not.
+    /// </summary>
+    public bool IsLoop
+    {
+        get => this.AudioPlayerBase.Loop;
+        set => this.AudioPlayerBase.Loop = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether playing tracks are mixed or not.
+    /// </summary>
+    public bool IsShuffle
+    {
+        get => this.AudioPlayerBase.Shuffle;
+        set => this.AudioPlayerBase.Shuffle = value;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether track is finished or not.
+    /// </summary>
+    public bool IsFinished => this.AudioPlayerBase.IsFinished;
+
+    /// <summary>
+    /// Gets a value indicating whether track is finished or not.
+    /// </summary>
+    public bool IsFinished => this.AudioPlayerBase.LogInfo;
+
+    /// <summary>
+    /// Start playing music.
+    /// </summary>
+    /// <param name="audioFile">Plays <see cref="AudioFile"/>.</param>
+    /// <returns>Is music started or not.</returns>
+    public bool Play(AudioFile audioFile)
+    {
+        return true;
+    }
+
+    /// <summary>
+    /// Stop playing music. Remove all music in queue.
+    /// </summary>
+    /// <returns>Is music stopped or not.</returns>
+    public bool Stop()
+    {
+        return true;
+    }
 }
