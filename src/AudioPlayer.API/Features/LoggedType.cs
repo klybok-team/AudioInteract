@@ -10,17 +10,17 @@ namespace AudioPlayer.API.Features;
 public enum LoggedType
 {
     /// <summary>
-    /// A.
+    /// Do not show any logs in console.
     /// </summary>
     None,
 
     /// <summary>
-    /// a.
+    /// Display info when: track starts to play, track completed, track loading.
     /// </summary>
     Info,
 
     /// <summary>
-    /// a.
+    /// Display ALL information of current playing track. Use ONLY for debugging. Displays info for: allowedSamples, samplesPerSecond, StreamBuffer.Count, PlaybackBuffer, PlaybackBuffer.WriteHead.
     /// </summary>
-    Debug
+    Debug,
 }

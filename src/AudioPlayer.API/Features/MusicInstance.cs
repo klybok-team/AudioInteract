@@ -13,7 +13,9 @@ using SCPSLAudioApi.AudioCore;
 /// </summary>
 public partial class MusicInstance
 {
-    private readonly AudioPlayerBase audioPlayerBase = new();
+    private AudioPlayerBase audioPlayerBase = new();
+
+    private LoggedType loggedType = LoggedType.None;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MusicInstance"/> class.
@@ -98,9 +100,38 @@ public partial class MusicInstance
     public bool IsFinished => this.AudioPlayerBase.IsFinished;
 
     /// <summary>
-    /// Gets a value indicating whether track is finished or not.
+    /// Gets or sets logs type <see cref="Features.LoggedType"/>.
     /// </summary>
-    public bool IsFinished => this.AudioPlayerBase.LogInfo;
+    public LoggedType LoggedType
+    {
+        get => this.loggedType;
+        set
+        {
+            this.AudioPlayerBase.LogDebug = false;
+            this.AudioPlayerBase.LogInfo = false;
+
+            switch (value)
+            {
+                case LoggedType.Info:
+                    this.AudioPlayerBase.LogInfo = true;
+                    break;
+                case LoggedType.Debug:
+                    this.AudioPlayerBase.LogDebug = true;
+                    this.AudioPlayerBase.LogInfo = true;
+                    break;
+                default:
+                    break;
+            }
+
+            this.loggedType = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether remove NPC on finish or not.
+    /// </summary>
+    [Obsolete("Use Stop() method.")]
+    public bool ClearOnFinish => this.AudioPlayerBase.ClearOnFinish;
 
     /// <summary>
     /// Start playing music.
