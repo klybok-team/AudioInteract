@@ -2,10 +2,9 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.API;
+namespace AudioPlayer.Features;
 
 using System.Reflection;
-using AudioPlayer.API.Features;
 using CentralAuth;
 using Exiled.API.Features;
 using HarmonyLib;
@@ -13,7 +12,7 @@ using PlayerRoles;
 using UnityEngine;
 
 /// <summary>
-/// Main API class to interact with NPC and SCPSLAudioPlayer.
+/// Main API class to interact with NPC.
 /// </summary>
 public static class API
 {

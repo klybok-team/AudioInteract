@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.API.Features;
+namespace AudioPlayer.Features;
 
 using System.ComponentModel;
 using Exiled.API.Features;
@@ -40,6 +40,7 @@ public class AudioFile
     /// <summary>
     /// Gets or sets a value indicating whether this audio file enabled or not.
     /// </summary>
+    [Description("Indicates enabled AudioFile or not.")]
     public bool IsEnabled { get; set; } = true;
 
     /// <summary>
@@ -50,11 +51,13 @@ public class AudioFile
     /// <summary>
     /// Gets or sets a value indicating whether loop track or not. Default is false.
     /// </summary>
+    [Description("Indicates enabled AudioFile is looped or not.")]
     public bool IsLooped { get; set; } = false;
 
     /// <summary>
     /// Gets or sets value that indicates volume of track. Default is 75.
     /// </summary>
+    [Description("Set volume of track.")]
     public int Volume { get; set; } = 75;
 
     /// <summary>
@@ -66,5 +69,6 @@ public class AudioFile
     /// <summary>
     /// Gets or sets ID of bot. If ID is negative, API will create new bot with random ID.
     /// </summary>
+    [Description("Set's ID of bot. If ID is negative, API will create new bot.")]
     public int BotId { get; set; } = -1;
 }

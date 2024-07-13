@@ -5,7 +5,7 @@
 namespace AudioPlayer.Plugin.Configs;
 
 using System.ComponentModel;
-using AudioPlayer.API.Features;
+using AudioPlayer.Features;
 using Exiled.API.Features;
 using Exiled.API.Interfaces;
 using Exiled.Loader;
@@ -22,7 +22,7 @@ public sealed class Plugin : IConfig
     public bool Debug { get; set; } = true;
 
     /// <summary/>
-    [Description("Indicates will plugin register and ")]
+    [Description("Indicates will plugin register and try to play music wi")]
     public bool IsEventsEnabled { get; set; } = false;
 
     /// <summary/>
@@ -40,7 +40,7 @@ public sealed class Plugin : IConfig
         },
         {
         new(
-            Path.Combine(AudioFile.RawFilePath, "lobby_music.ogg"),
+            Path.Combine(AudioFile.RawFilePath, "lobby_music1.ogg"),
             false,
             true,
             75,

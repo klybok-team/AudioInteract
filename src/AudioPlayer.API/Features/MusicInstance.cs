@@ -2,15 +2,14 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.API.Features;
+namespace AudioPlayer.Features;
 
-using System.IO;
 using System.Linq;
 using Exiled.API.Features;
 using SCPSLAudioApi.AudioCore;
 
 /// <summary>
-/// Music Instance API for NPC.
+/// Music Instance API for NPC. Main API to interact with SCPSLAudioPlayer.
 /// </summary>
 public partial class MusicInstance
 {

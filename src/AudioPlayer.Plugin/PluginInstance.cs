@@ -4,16 +4,13 @@
 
 namespace AudioPlayer.Plugin;
 
-using HarmonyLib;
+using AudioPlayerAPI = AudioPlayer.Features.API;
 
 /// <inheritdoc/>
 public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
 {
     /// <summary/>
     public const string HarmonyID = $"AudioPlayer - Klybok Team";
-
-    /// <summary/>
-    public static Harmony? Harmony { get; private set; }
 
     /// <inheritdoc/>
     public override string Name => "AudioPlayer";
@@ -27,8 +24,7 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     /// <inheritdoc/>
     public override void OnEnabled()
     {
-        Harmony = new Harmony(HarmonyID);
-        Harmony.PatchAll();
+        AudioPlayerAPI.RegisterPatches();
 
         base.OnEnabled();
     }
@@ -36,8 +32,7 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     /// <inheritdoc/>
     public override void OnDisabled()
     {
-        Harmony?.UnpatchAll(HarmonyID);
-        Harmony = null;
+        AudioPlayerAPI.UnregisterPatches();
 
         base.OnDisabled();
     }

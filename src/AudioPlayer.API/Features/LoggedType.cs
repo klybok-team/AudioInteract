@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.API.Features;
+namespace AudioPlayer.Features;
 
 /// <summary>
 /// Display track info.
