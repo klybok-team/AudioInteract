@@ -1,4 +1,4 @@
-﻿// <copyright file="NPCSettings.cs" company="Klybok Team">
+﻿// <copyright file="MusicInstance.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
@@ -9,16 +9,16 @@ using Exiled.API.Features;
 using SCPSLAudioApi.AudioCore;
 
 /// <summary>
-/// NPC settings.
+/// Music Instance API for NPC.
 /// </summary>
-public class NPCSettings
+public class MusicInstance
 {
     private readonly AudioPlayerBase audioPlayerBase = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="NPCSettings"/> class.
+    /// Initializes a new instance of the <see cref="MusicInstance"/> class.
     /// </summary>
-    public NPCSettings()
+    public MusicInstance()
     {
         this.audioPlayerBase = new();
     }

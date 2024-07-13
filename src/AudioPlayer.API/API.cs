@@ -19,7 +19,7 @@ public static class API
     /// <summary>
     /// Gets settings of NPC.
     /// </summary>
-    public static Dictionary<Npc, NPCSettings> NpcToSettings { get; private set; } = new();
+    public static Dictionary<Npc, MusicInstance> NpcToSettings { get; private set; } = new();
 
     /// <summary>
     /// Creates new NPC and create settings for him.
@@ -81,7 +81,7 @@ public static class API
             return false;
         }
 
-        if (NpcToSettings.TryGetValue(npc, out NPCSettings settings))
+        if (NpcToSettings.TryGetValue(npc, out MusicInstance settings))
         {
             settings.AudioPlayerBase?.OnDestroy();
 
