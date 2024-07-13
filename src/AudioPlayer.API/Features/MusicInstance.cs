@@ -135,33 +135,66 @@ public partial class MusicInstance
     public bool ClearOnFinish => this.AudioPlayerBase.ClearOnFinish;
 
     /// <summary>
-    /// Start playing music.
+    /// Immediately starts playing music.
     /// </summary>
-    /// <param name="audioFile">Plays <see cref="AudioFile"/>.</param>
-    /// <returns>Is music started or not.</returns>
-    public bool Play(AudioFile audioFile)
+    /// <param name="audioFile">Plays the <see cref="AudioFile"/>.</param>
+    public void Play(AudioFile audioFile)
     {
         this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
+        this.AudioPlayerBase.Volume = audioFile.Volume;
+        this.AudioPlayerBase.Loop = audioFile.IsLooped;
 
-        this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
+        this.AudioPlayerBase.Enqueue(audioFile.FilePath, 0);
 
         if (this.AudioPlayerBase.CurrentPlay == null)
         {
             this.AudioPlayerBase.Play(0);
         }
-
-        return true;
     }
 
     /// <summary>
-    /// Start playing music.
+    /// Immediately starts playing music.
+    /// </summary>
+    /// <param name="path">Path to file.</param>
+    public void Play(string path)
+    {
+        this.AudioPlayerBase.Enqueue(path, 0);
+
+        if (this.AudioPlayerBase.CurrentPlay == null)
+        {
+            this.AudioPlayerBase.Play(0);
+        }
+    }
+
+    /// <summary>
+    /// Enqueue music.
+    /// </summary>
+    /// <param name="audioFile">Enqueue the <see cref="AudioFile"/>.</param>
+    public void Enqueue(AudioFile audioFile)
+    {
+        this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
+        this.AudioPlayerBase.Volume = audioFile.Volume;
+        this.AudioPlayerBase.Loop = audioFile.IsLooped;
+
+        this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
+
+        // If music not playing, starts to play.
+        if (this.AudioPlayerBase.CurrentPlay == null)
+        {
+            this.AudioPlayerBase.Play(0);
+        }
+    }
+
+    /// <summary>
+    /// Enqueue music.
     /// </summary>
     /// <param name="path">Path to file.</param>
     /// <returns>Is music started or not.</returns>
-    public bool Play(string path)
+    public bool Enqueue(string path)
     {
         this.AudioPlayerBase.Enqueue(path, -1);
 
+        // If music not playing, starts to play.
         if (this.AudioPlayerBase.CurrentPlay == null)
         {
             this.AudioPlayerBase.Play(0);
