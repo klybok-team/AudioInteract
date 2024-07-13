@@ -5,10 +5,6 @@
 namespace AudioPlayer.API.Features;
 
 using Exiled.API.Features;
-using FFMpegCore;
-using FFMpegCore.Enums;
-using FFMpegCore.Helpers;
-using NVorbis;
 
 /// <summary>
 /// A collection of API methods.
@@ -41,8 +37,6 @@ public static class Extensions
 
         if (Path.GetExtension(audioFile.FilePath) != ".ogg")
         {
-            FFMpegArguments.FromFileInput(audioFile.FilePath).;
-
             editedFile = ConvertToOgg(audioFile);
             return editedFile != null;
         }
@@ -58,13 +52,6 @@ public static class Extensions
     /// <returns>Returns null if file wasn't be converted. Returns new file class with edited path if was.</returns>
     public static AudioFile? ConvertToOgg(AudioFile audioFile)
     {
-        FFMpegArguments
-            .FromFileInput(audioFile.FilePath)
-            .OutputToFile(audioFile.FilePath.Replace(Path.GetExtension(audioFile.FilePath), ".ogg"), true, options => options
-            .WithAudioCodec(AudioCodec.LibVorbis)
-            .WithAudioSamplingRate(48000))
-            .ProcessSynchronously();
-
         return null;
     }
 }

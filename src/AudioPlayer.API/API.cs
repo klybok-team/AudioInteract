@@ -4,11 +4,12 @@
 
 namespace AudioPlayer.API;
 
+using System.Reflection;
 using AudioPlayer.API.Features;
 using CentralAuth;
 using Exiled.API.Features;
+using HarmonyLib;
 using PlayerRoles;
-using SCPSLAudioApi.AudioCore;
 using UnityEngine;
 
 /// <summary>
@@ -17,9 +18,62 @@ using UnityEngine;
 public static class API
 {
     /// <summary>
+    /// Gets harmony ID.
+    /// </summary>
+    public const string HarmonyID = "Klybok.Team - AudioPlayer.API";
+
+    /// <summary>
+    /// Harmony main class.
+    /// </summary>
+    private static Harmony? harmony;
+
+    /// <summary>
     /// Gets settings of NPC.
     /// </summary>
     public static Dictionary<Npc, MusicInstance> NpcToSettings { get; private set; } = new();
+
+    private static List<Assembly> UsingAssemblys { get; set; } = new();
+
+    /// <summary>
+    /// Register patches to handle some extra-features of API.
+    /// </summary>
+    public static void RegisterPatches()
+    {
+        var callingAssembly = Assembly.GetCallingAssembly();
+
+        if (callingAssembly == null)
+        {
+            return;
+        }
+
+        UsingAssemblys.Add(callingAssembly);
+
+        harmony = new(HarmonyID);
+        harmony.PatchAll();
+    }
+
+    /// <summary>
+    /// Unregister patches.
+    /// </summary>
+    public static void UnregisterPatches()
+    {
+        var callingAssembly = Assembly.GetCallingAssembly();
+
+        if (callingAssembly == null)
+        {
+            return;
+        }
+
+        UsingAssemblys.Remove(callingAssembly);
+
+        if (UsingAssemblys.Count > 0)
+        {
+            return;
+        }
+
+        harmony?.UnpatchAll();
+        harmony = null;
+    }
 
     /// <summary>
     /// Creates new NPC and create settings for him.
