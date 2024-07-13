@@ -4,6 +4,7 @@
 
 namespace AudioPlayer.API.Features;
 
+using System.IO;
 using System.Linq;
 using Exiled.API.Features;
 using SCPSLAudioApi.AudioCore;
@@ -140,8 +141,50 @@ public partial class MusicInstance
     /// <returns>Is music started or not.</returns>
     public bool Play(AudioFile audioFile)
     {
+        this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
+
+        this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
+
+        if (this.AudioPlayerBase.CurrentPlay == null)
+        {
+            this.AudioPlayerBase.Play(0);
+        }
+
         return true;
     }
+
+    /// <summary>
+    /// Start playing music.
+    /// </summary>
+    /// <param name="path">Path to file.</param>
+    /// <returns>Is music started or not.</returns>
+    public bool Play(string path)
+    {
+        this.AudioPlayerBase.Enqueue(path, -1);
+
+        if (this.AudioPlayerBase.CurrentPlay == null)
+        {
+            this.AudioPlayerBase.Play(0);
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Start playing music if current play is null & there is tracks in queue.
+    /// </summary>
+    public void Play()
+    {
+        if (this.PlayingTrack == null && this.TrackQueue.Count > 0)
+        {
+            this.AudioPlayerBase.Play(0);
+        }
+    }
+
+    /// <summary>
+    /// Skip current playing track.
+    /// </summary>
+    public void Skip() => this.AudioPlayerBase.Stoptrack(false);
 
     /// <summary>
     /// Stop playing music. Remove all music in queue.
