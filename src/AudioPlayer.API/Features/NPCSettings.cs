@@ -4,6 +4,7 @@
 
 namespace AudioPlayer.API.Features;
 
+using Exiled.API.Features;
 using SCPSLAudioApi.AudioCore;
 
 /// <summary>
@@ -11,31 +12,56 @@ using SCPSLAudioApi.AudioCore;
 /// </summary>
 public class NPCSettings
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="NPCSettings"/> class.
-    /// </summary>
-    /// <param name="id">ID to set to bot.</param>
-    public NPCSettings(int id = 0)
-    {
-        this.AudioPlayerBase = new();
-        this.ID = id;
-    }
+    private readonly AudioPlayerBase audioPlayerBase = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NPCSettings"/> class.
     /// </summary>
     public NPCSettings()
     {
-        this.AudioPlayerBase = new();
+        this.audioPlayerBase = new();
     }
 
     /// <summary>
-    /// Gets or sets <see cref="AudioPlayerBase"/> main class.
+    /// Gets or sets currently playing music for IDs.
     /// </summary>
-    public AudioPlayerBase? AudioPlayerBase { get; set; }
+    public List<int> PlaysFor
+    {
+        get => this.AudioPlayerBase.BroadcastTo;
+        set
+        {
+            this.AudioPlayerBase.BroadcastTo = value;
+        }
+    }
 
     /// <summary>
-    /// Gets ID in player list of bot.
+    /// Gets or sets currently playing music for IDs.
     /// </summary>
-    public int ID { get; } = -1;
+    public List<Player> PlaysForPlayers
+    {
+        get
+        {
+            List<Player> played = new();
+
+            this.AudioPlayerBase.BroadcastTo.ForEach(x =>
+            {
+                if (Player.TryGet(x, out Player pl))
+                {
+                    played.Add(pl);
+                }
+            });
+
+            return played;
+        }
+
+        set
+        {
+            this.AudioPlayerBase.BroadcastTo = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets <see cref="AudioPlayerBase"/> main class.
+    /// </summary>
+    public AudioPlayerBase AudioPlayerBase => this.audioPlayerBase;
 }

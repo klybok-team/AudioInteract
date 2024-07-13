@@ -22,12 +22,18 @@
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mirror">
+      <HintPath>..\..\..\CompileFiles\Mirror.dll</HintPath>
+    </Reference>
     <Reference Include="SCPSLAudioApi">
       <HintPath>..\..\..\CompileFiles\SCPSLAudioApi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\CompileFiles\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\CompileFiles\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
