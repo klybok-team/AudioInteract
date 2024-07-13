@@ -22,7 +22,7 @@ public static class API
     public static Dictionary<Npc, NPCSettings> NpcToSettings { get; private set; } = new();
 
     /// <summary>
-    /// Creates new NPC and creates settings for him.
+    /// Creates new NPC and create settings for him.
     /// </summary>
     /// <param name="name">Name setted to NPC.</param>
     /// <param name="role">Role setted to NPC.</param>
@@ -48,7 +48,7 @@ public static class API
     }
 
     /// <summary>
-    /// Creates settings for NPC.
+    /// Create settings for NPC.
     /// </summary>
     /// <param name="npc">NPC to set settings.</param>
     /// <returns>Indicates settings is successfuly created or not.</returns>
@@ -70,7 +70,7 @@ public static class API
     }
 
     /// <summary>
-    /// Destroyes NPC.
+    /// Destroy NPC.
     /// </summary>
     /// <param name="npc">NPC to destroy.</param>
     /// <returns>Indicates NPC is successfuly destroyed or not.</returns>

@@ -45,4 +45,13 @@ public class AudioFile
     {
         return true;
     }
+
+    /// <summary>
+    /// Stop playing music.
+    /// </summary>
+    /// <returns>Is music started or not.</returns>
+    public bool Stop()
+    {
+        return true;
+    }
 }

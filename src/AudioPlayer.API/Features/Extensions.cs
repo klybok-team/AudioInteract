@@ -5,6 +5,9 @@
 namespace AudioPlayer.API.Features;
 
 using Exiled.API.Features;
+using FFMpegCore;
+using FFMpegCore.Enums;
+using FFMpegCore.Helpers;
 using NVorbis;
 
 /// <summary>
@@ -21,7 +24,7 @@ public static class Extensions
     /// Checks the path for playable track.
     /// </summary>
     /// <param name="audioFile">AudioFile to check.</param>
-    /// <param name="editedFile">Gets the edited file if he was edited.</param>
+    /// <param name="editedFile">Gets the edited file if he wasn't be .ogg or don't match codec || sampling rate.</param>
     /// <returns>Is file exists and ready to be played.</returns>
     public static bool CheckTrack(AudioFile audioFile, out AudioFile? editedFile)
     {
@@ -38,10 +41,7 @@ public static class Extensions
 
         if (Path.GetExtension(audioFile.FilePath) != ".ogg")
         {
-            VorbisReader vorbisReader = new(audioFile.FilePath);
-
-            Log.Info(vorbisReader.Channels);
-            Log.Info(vorbisReader.NominalBitrate);
+            FFMpegArguments.FromFileInput(audioFile.FilePath).;
 
             editedFile = ConvertToOgg(audioFile);
             return editedFile != null;
@@ -58,6 +58,13 @@ public static class Extensions
     /// <returns>Returns null if file wasn't be converted. Returns new file class with edited path if was.</returns>
     public static AudioFile? ConvertToOgg(AudioFile audioFile)
     {
+        FFMpegArguments
+            .FromFileInput(audioFile.FilePath)
+            .OutputToFile(audioFile.FilePath.Replace(Path.GetExtension(audioFile.FilePath), ".ogg"), true, options => options
+            .WithAudioCodec(AudioCodec.LibVorbis)
+            .WithAudioSamplingRate(48000))
+            .ProcessSynchronously();
+
         return null;
     }
 }
