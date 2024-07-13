@@ -4,6 +4,7 @@
 
 namespace AudioPlayer.API.Features;
 
+using System.Linq;
 using Exiled.API.Features;
 using SCPSLAudioApi.AudioCore;
 
@@ -23,7 +24,7 @@ public class NPCSettings
     }
 
     /// <summary>
-    /// Gets or sets currently playing music for IDs.
+    /// Gets or sets IDs who recive playing music.
     /// </summary>
     public List<int> PlaysFor
     {
@@ -35,8 +36,9 @@ public class NPCSettings
     }
 
     /// <summary>
-    /// Gets or sets currently playing music for IDs.
+    /// Gets or sets players who recive playing music.
     /// </summary>
+    [Obsolete("Use plays for with IDs. Ignore this if you don't care.")]
     public List<Player> PlaysForPlayers
     {
         get
@@ -54,10 +56,7 @@ public class NPCSettings
             return played;
         }
 
-        set
-        {
-            this.AudioPlayerBase.BroadcastTo = value;
-        }
+        set => this.AudioPlayerBase.BroadcastTo = value.Select(x => x.Id).ToList();
     }
 
     /// <summary>

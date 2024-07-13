@@ -36,7 +36,7 @@ public static class API
         {
             var npc = Npc.Spawn(name, role, id, userID, position);
 
-            NpcToSettings.Add(npc, new(npc.Id));
+            NpcToSettings.Add(npc, new());
 
             return npc != null;
         }
