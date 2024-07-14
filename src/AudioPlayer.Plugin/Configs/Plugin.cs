@@ -6,7 +6,9 @@ namespace AudioPlayer.Plugin.Configs;
 
 using System.ComponentModel;
 using AudioPlayer.Features;
+using Exiled.API.Enums;
 using Exiled.API.Interfaces;
+using PlayerRoles;
 
 /// <summary/>
 public sealed class Plugin : IConfig
@@ -41,6 +43,10 @@ public sealed class Plugin : IConfig
                 Volume = 75,
                 Shuffle = false,
                 BotId = -1,
+                LocalRoomPostion = new(0, 0, 0),
+                Postion = new(0, 0, 0),
+                RoleType = RoleTypeId.Overwatch,
+                RoomType = RoomType.Unknown,
             }
         },
     };

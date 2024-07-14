@@ -51,8 +51,6 @@ public class EventHandlers
     {
         foreach (Features.AudioFile? audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
         {
-            Log.Info(audioFile.FilePath);
-
             Features.MusicInstance? musicInstance = AudioAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
 
             if (musicInstance == null)

@@ -27,6 +27,11 @@ public static class API
     /// </summary>
     private static Harmony? harmony;
 
+    static API()
+    {
+        Startup.SetupDependencies();
+    }
+
     /// <summary>
     /// Gets settings of NPC.
     /// </summary>
@@ -39,8 +44,6 @@ public static class API
     /// </summary>
     public static void RegisterPatches()
     {
-        Startup.SetupDependencies();
-
         Assembly callingAssembly = Assembly.GetCallingAssembly();
 
         if (callingAssembly == null)
@@ -84,14 +87,12 @@ public static class API
     /// <param name="role">Role setted to NPC.</param>
     /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
     /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
-    /// <param name="position">Position setted to NPC. null = don't set.</param>
     /// <returns>Indicates NPC is successfuly created or not.</returns>
-    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId, Vector3? position = null)
+    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
-        // PlayerAuthenticationManager.DedicatedId
         try
         {
-            Npc npc = Npc.Spawn(name, role, id, userID, position);
+            Npc npc = Npc.Spawn(name, role, id, userID);
 
             try
             {

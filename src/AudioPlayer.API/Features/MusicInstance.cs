@@ -5,9 +5,11 @@
 namespace AudioPlayer.Features;
 
 using System.Linq;
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
+using UnityEngine;
 
 /// <summary>
 /// Music Instance API for NPC. Main API to interact with SCPSLAudioPlayer.
@@ -162,12 +164,12 @@ public partial class MusicInstance
 
         this.Npc?.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
 
-        if (audioFile.RoomType.HasValue && audioFile.LocalRoomPostion.HasValue)
+        if (audioFile.RoomType.HasValue && audioFile.RoomType.Value != RoomType.Unknown && audioFile.LocalRoomPostion.HasValue && audioFile.LocalRoomPostion != Vector3.zero)
         {
             this.Npc!.Position = Room.Get(audioFile.RoomType.Value).WorldPosition(audioFile.LocalRoomPostion.Value);
         }
 
-        if(audioFile.Postion.HasValue)
+        if (audioFile.Postion.HasValue && audioFile.Postion != Vector3.zero)
         {
             this.Npc!.Position = audioFile.Postion.Value;
         }
@@ -214,10 +216,6 @@ public partial class MusicInstance
     /// <param name="audioFile">Enqueue the <see cref="AudioFile"/>.</param>
     public void Enqueue(AudioFile audioFile)
     {
-        this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
-        this.AudioPlayerBase.Volume = audioFile.Volume;
-        this.AudioPlayerBase.Loop = audioFile.IsLooped;
-
         this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
 
         // If music not playing, starts to play.
