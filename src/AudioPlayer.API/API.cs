@@ -41,7 +41,7 @@ public static class API
     {
         Startup.SetupDependencies();
 
-        var callingAssembly = Assembly.GetCallingAssembly();
+        Assembly callingAssembly = Assembly.GetCallingAssembly();
 
         if (callingAssembly == null)
         {
@@ -59,7 +59,7 @@ public static class API
     /// </summary>
     public static void UnregisterPatches()
     {
-        var callingAssembly = Assembly.GetCallingAssembly();
+        Assembly callingAssembly = Assembly.GetCallingAssembly();
 
         if (callingAssembly == null)
         {
@@ -86,12 +86,12 @@ public static class API
     /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
     /// <param name="position">Position setted to NPC. null = don't set.</param>
     /// <returns>Indicates NPC is successfuly created or not.</returns>
-    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = "dummy@localhost", Vector3? position = null)
+    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId, Vector3? position = null)
     {
         // PlayerAuthenticationManager.DedicatedId
         try
         {
-            var npc = Npc.Spawn(name, role, id, userID, position);
+            Npc npc = Npc.Spawn(name, role, id, userID, position);
 
             try
             {
@@ -116,8 +116,6 @@ public static class API
             {
                 Log.Debug($"Ignore: {e}");
             }
-
-            npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.Host;
 
             MusicInstance.Add(new(npc));
 
@@ -164,7 +162,7 @@ public static class API
             return false;
         }
 
-        var musicInstance = MusicInstance.FirstOrDefault(x => x.Npc == npc);
+        MusicInstance musicInstance = MusicInstance.FirstOrDefault(x => x.Npc == npc);
         if (musicInstance != null)
         {
             musicInstance.AudioPlayerBase?.OnDestroy();

@@ -4,8 +4,6 @@
 
 namespace AudioPlayer.Plugin;
 
-using Exiled.API.Features;
-using static PlayerList;
 using AudioPlayerAPI = AudioPlayer.Features.API;
 
 /// <inheritdoc/>

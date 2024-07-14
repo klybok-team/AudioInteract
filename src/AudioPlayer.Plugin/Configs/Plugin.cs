@@ -6,9 +6,7 @@ namespace AudioPlayer.Plugin.Configs;
 
 using System.ComponentModel;
 using AudioPlayer.Features;
-using Exiled.API.Features;
 using Exiled.API.Interfaces;
-using Exiled.Loader;
 
 /// <summary/>
 public sealed class Plugin : IConfig
@@ -41,6 +39,7 @@ public sealed class Plugin : IConfig
                 IsLooped = true,
                 VoiceChannel = VoiceChat.VoiceChatChannel.Intercom,
                 Volume = 75,
+                Shuffle = false,
                 BotId = -1,
             }
         },

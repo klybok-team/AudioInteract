@@ -14,8 +14,6 @@ using SCPSLAudioApi.AudioCore;
 /// </summary>
 public partial class MusicInstance
 {
-    private AudioPlayerBase audioPlayerBase = new();
-
     private LoggedType loggedType = LoggedType.None;
 
     /// <summary>
@@ -26,7 +24,7 @@ public partial class MusicInstance
     {
         this.Npc = linknpc;
 
-        this.audioPlayerBase = AudioPlayerBase.Get(linknpc.ReferenceHub);
+        this.AudioPlayerBase = AudioPlayerBase.Get(linknpc.ReferenceHub);
     }
 
     /// <summary>
@@ -49,7 +47,7 @@ public partial class MusicInstance
     /// <summary>
     /// Gets or sets players who recive playing music.
     /// </summary>
-    [Obsolete("Use plays for with IDs (int). Ignore this if you don't care.")]
+    [Obsolete("Use PlaysFor with IDs (int). Ignore this if you don't care.")]
     public List<Player> PlaysForPlayers
     {
         get
@@ -73,7 +71,7 @@ public partial class MusicInstance
     /// <summary>
     /// Gets <see cref="AudioPlayerBase"/> main class.
     /// </summary>
-    public AudioPlayerBase AudioPlayerBase => this.audioPlayerBase;
+    public AudioPlayerBase AudioPlayerBase { get; private set; }
 
     /// <summary>
     /// Gets track queue. Doesn't show current playing track.
@@ -143,6 +141,15 @@ public partial class MusicInstance
     public bool ClearOnFinish => this.AudioPlayerBase.ClearOnFinish;
 
     /// <summary>
+    /// Gets or sets a value indicating whether shuffle tracks or not.
+    /// </summary>
+    public bool Shuffle
+    {
+        get => this.AudioPlayerBase.Shuffle;
+        set => this.AudioPlayerBase.Shuffle = value;
+    }
+
+    /// <summary>
     /// Immediately starts playing music.
     /// </summary>
     /// <param name="audioFile">Plays the <see cref="AudioFile"/>.</param>
@@ -153,16 +160,22 @@ public partial class MusicInstance
             Log.Warn("AudioFile is not enabled, skipping.");
         }
 
-        foreach (var hub in Player.List)
+        this.Npc?.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
+
+        if (audioFile.RoomType.HasValue && audioFile.LocalRoomPostion.HasValue)
         {
-            AudioPlayerBase.Get(hub.ReferenceHub);
+            this.Npc!.Position = Room.Get(audioFile.RoomType.Value).WorldPosition(audioFile.LocalRoomPostion.Value);
         }
 
-        this.Npc?.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
+        if(audioFile.Postion.HasValue)
+        {
+            this.Npc!.Position = audioFile.Postion.Value;
+        }
 
         this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
         this.AudioPlayerBase.Volume = audioFile.Volume;
         this.AudioPlayerBase.Loop = audioFile.IsLooped;
+        this.AudioPlayerBase.Shuffle = audioFile.Shuffle;
 
         try
         {

@@ -54,6 +54,12 @@ public class AudioFile
     public bool IsEnabled { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether shuffle tracks or not.
+    /// </summary>
+    [Description("Indicates shuffle tracks or not.")]
+    public bool Shuffle { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets path to audio file. Default leads to EXILED root directory (EXILED/Audio/track.ogg).
     /// </summary>
     [Description("Sets file path to music.")]

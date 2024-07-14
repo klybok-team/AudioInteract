@@ -1,4 +1,8 @@
-﻿namespace AudioPlayer.Plugin.Commands;
+﻿// <copyright file="LocalRoomPosition.cs" company="Klybok Team">
+// Copyright (c) Klybok Team. All rights reserved.
+// </copyright>
+
+namespace AudioPlayer.Plugin.Commands;
 
 using CommandSystem;
 using Exiled.API.Features;

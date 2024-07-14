@@ -7,9 +7,6 @@ namespace AudioPlayer.Plugin.Handlers;
 using Exiled.API.Features;
 using AudioAPI = AudioPlayer.Features.API;
 using ServerEvent = Exiled.Events.Handlers.Server;
-using PlayerEvent = Exiled.Events.Handlers.Player;
-using Exiled.Events.EventArgs.Player;
-using SCPSLAudioApi.AudioCore;
 
 /// <summary/>
 public class EventHandlers
@@ -19,8 +16,6 @@ public class EventHandlers
     /// </summary>
     public EventHandlers()
     {
-        PlayerEvent.Verified += this.OnVerifed_AudioPlayerBase_Get;
-
         if (!PluginInstance.Instance!.Config.IsEventsEnabled)
         {
             return;
@@ -35,8 +30,6 @@ public class EventHandlers
     /// </summary>
     ~EventHandlers()
     {
-        PlayerEvent.Verified -= this.OnVerifed_AudioPlayerBase_Get;
-
         if (!PluginInstance.Instance!.Config.IsEventsEnabled)
         {
             return;
@@ -56,11 +49,11 @@ public class EventHandlers
     /// </summary>
     public void OnWaitingForPlayers_EnableMusic()
     {
-        foreach (var audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
+        foreach (Features.AudioFile? audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
         {
             Log.Info(audioFile.FilePath);
 
-            var musicInstance = AudioAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
+            Features.MusicInstance? musicInstance = AudioAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
 
             if (musicInstance == null)
             {
@@ -78,18 +71,9 @@ public class EventHandlers
     /// </summary>
     public void OnRoundStarted_StopMusic()
     {
-        foreach (var npc in LobbyPlayingNPC)
+        foreach (Npc npc in LobbyPlayingNPC)
         {
             AudioAPI.DestroyNPC(npc);
         }
-    }
-
-    /// <summary>
-    /// Add component to player, when he is joined to server.
-    /// </summary>
-    /// <param name="ev">Event Args.</param>
-    public void OnVerifed_AudioPlayerBase_Get(VerifiedEventArgs ev)
-    {
-        AudioPlayerBase.Get(ev.Player.ReferenceHub);
     }
 }
