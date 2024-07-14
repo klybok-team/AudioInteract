@@ -6,6 +6,7 @@ namespace AudioPlayer.Features;
 
 using System.Linq;
 using Exiled.API.Features;
+using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
 
 /// <summary>
@@ -20,10 +21,18 @@ public partial class MusicInstance
     /// <summary>
     /// Initializes a new instance of the <see cref="MusicInstance"/> class.
     /// </summary>
-    public MusicInstance()
+    /// <param name="linknpc">NPC to link.</param>
+    public MusicInstance(Npc linknpc)
     {
-        this.audioPlayerBase = new();
+        this.Npc = linknpc;
+
+        this.audioPlayerBase = AudioPlayerBase.Get(linknpc.ReferenceHub);
     }
+
+    /// <summary>
+    /// Gets NPC linked to class.
+    /// </summary>
+    public Npc Npc { get; private set; }
 
     /// <summary>
     /// Gets or sets IDs who recive playing music.
@@ -139,11 +148,32 @@ public partial class MusicInstance
     /// <param name="audioFile">Plays the <see cref="AudioFile"/>.</param>
     public void Play(AudioFile audioFile)
     {
+        if (!audioFile.IsEnabled)
+        {
+            Log.Warn("AudioFile is not enabled, skipping.");
+        }
+
+        foreach (var hub in Player.List)
+        {
+            AudioPlayerBase.Get(hub.ReferenceHub);
+        }
+
+        this.Npc?.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
+
         this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
         this.AudioPlayerBase.Volume = audioFile.Volume;
         this.AudioPlayerBase.Loop = audioFile.IsLooped;
 
-        this.AudioPlayerBase.Enqueue(audioFile.FilePath, 0);
+        try
+        {
+            this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
+
+            this.AudioPlayerBase.Play(0);
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error(ex);
+        }
 
         if (this.AudioPlayerBase.CurrentPlay == null)
         {

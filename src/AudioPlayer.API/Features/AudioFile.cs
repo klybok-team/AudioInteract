@@ -5,7 +5,10 @@
 namespace AudioPlayer.Features;
 
 using System.ComponentModel;
+using Exiled.API.Enums;
 using Exiled.API.Features;
+using PlayerRoles;
+using UnityEngine;
 using VoiceChat;
 
 /// <summary>
@@ -33,6 +36,13 @@ public class AudioFile
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="AudioFile"/> class.
+    /// </summary>
+    public AudioFile()
+    {
+    }
+
+    /// <summary>
     /// Gets default path to audio file directory, leads to EXILED root directory (EXILED/Audio).
     /// </summary>
     public static string RawFilePath => Path.Combine(Paths.Exiled, "Audio");
@@ -46,6 +56,7 @@ public class AudioFile
     /// <summary>
     /// Gets or sets path to audio file. Default leads to EXILED root directory (EXILED/Audio/track.ogg).
     /// </summary>
+    [Description("Sets file path to music.")]
     public string FilePath { get; set; } = Path.Combine(Paths.Exiled, "Audio", "track.ogg");
 
     /// <summary>
@@ -67,8 +78,28 @@ public class AudioFile
     public VoiceChatChannel VoiceChannel { get; set; } = VoiceChatChannel.Intercom;
 
     /// <summary>
-    /// Gets or sets ID of bot. If ID is negative, API will create new bot with random ID.
+    /// Gets or sets current bot role. Leave overwatch to not spawn bot.
     /// </summary>
-    [Description("Set's ID of bot. If ID is negative, API will create new bot.")]
+    public RoleTypeId RoleType { get; set; } = RoleTypeId.Overwatch;
+
+    /// <summary>
+    /// Gets or sets current bot position. Leave to not spawn bot.
+    /// </summary>
+    public Vector3? Postion { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets current bot room type to set local position. Leave to not spawn bot.
+    /// </summary>
+    public RoomType? RoomType { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets current bot local position for room. Leave to not spawn bot.
+    /// </summary>
+    public Vector3? LocalRoomPostion { get; set; } = null;
+
+    /// <summary>
+    /// Gets or sets ID of bot. If ID is negative, API will create new bot with random ID, if not - try to create with selected ID..
+    /// </summary>
+    [Description("Set's ID of bot. If ID is negative, API will create new bot with random ID, if not - try to create with selected ID..")]
     public int BotId { get; set; } = -1;
 }

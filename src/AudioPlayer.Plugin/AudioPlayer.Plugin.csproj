@@ -15,7 +15,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="EXILED" Version="9.0.0-alpha.10" />
+    <PackageReference Include="EXILED" Version="8.9.6" />
     <PackageReference Include="Lib.Harmony" Version="2.3.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
 	<AdditionalFiles Include="../../stylecop.json" />
@@ -26,9 +26,18 @@
     <ProjectReference Include="..\AudioPlayer.API\AudioPlayer.API.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mirror">
+      <HintPath>..\..\..\CompileFiles\Mirror.dll</HintPath>
+    </Reference>
     <Reference Include="SCPSLAudioApi">
       <HintPath>..\..\..\CompileFiles\SCPSLAudioApi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\CompileFiles\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\CompileFiles\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

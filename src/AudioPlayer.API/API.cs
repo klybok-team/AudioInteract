@@ -9,6 +9,7 @@ using CentralAuth;
 using Exiled.API.Features;
 using HarmonyLib;
 using PlayerRoles;
+using SCPSLAudioApi;
 using UnityEngine;
 
 /// <summary>
@@ -29,7 +30,7 @@ public static class API
     /// <summary>
     /// Gets settings of NPC.
     /// </summary>
-    public static Dictionary<Npc, MusicInstance> NpcToSettings { get; private set; } = new();
+    public static List<MusicInstance> MusicInstance { get; private set; } = new();
 
     private static List<Assembly> UsingAssemblys { get; set; } = new();
 
@@ -38,6 +39,8 @@ public static class API
     /// </summary>
     public static void RegisterPatches()
     {
+        Startup.SetupDependencies();
+
         var callingAssembly = Assembly.GetCallingAssembly();
 
         if (callingAssembly == null)
@@ -79,24 +82,49 @@ public static class API
     /// </summary>
     /// <param name="name">Name setted to NPC.</param>
     /// <param name="role">Role setted to NPC.</param>
-    /// <param name="id">ID setted to NPC.</param>
+    /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
     /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
     /// <param name="position">Position setted to NPC. null = don't set.</param>
     /// <returns>Indicates NPC is successfuly created or not.</returns>
-    public static bool CreateNPC(string name, RoleTypeId role = RoleTypeId.Overwatch, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId, Vector3? position = null)
+    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId, Vector3? position = null)
     {
+        // PlayerAuthenticationManager.DedicatedId
         try
         {
             var npc = Npc.Spawn(name, role, id, userID, position);
 
-            NpcToSettings.Add(npc, new());
+            try
+            {
+                if (userID == PlayerAuthenticationManager.DedicatedId)
+                {
+                    npc.ReferenceHub.authManager.SyncedUserId = userID;
+                    try
+                    {
+                        npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Ignore: {e}");
+                    }
+                }
+                else
+                {
+                    npc.ReferenceHub.authManager.UserId = userID == string.Empty ? $"Dummy@localhost" : userID;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"Ignore: {e}");
+            }
 
-            return npc != null;
+            MusicInstance.Add(new(npc));
+
+            return MusicInstance.FirstOrDefault(x => x.Npc == npc);
         }
         catch (System.Exception ex)
         {
             Log.Error(ex);
-            return false;
+            return null;
         }
     }
 
@@ -105,21 +133,21 @@ public static class API
     /// </summary>
     /// <param name="npc">NPC to set settings.</param>
     /// <returns>Indicates settings is successfuly created or not.</returns>
-    public static bool AddSetingsToNPC(Npc npc)
+    public static MusicInstance? AddSetingsToNPC(Npc npc)
     {
         if (npc == null)
         {
-            return false;
+            return null;
         }
 
-        if (NpcToSettings.ContainsKey(npc))
+        if (MusicInstance.FirstOrDefault(x => x.Npc == npc) == null)
         {
-            return false;
+            return null;
         }
 
-        NpcToSettings.Add(npc, new());
+        MusicInstance.Add(new(npc));
 
-        return NpcToSettings.ContainsKey(npc);
+        return MusicInstance.FirstOrDefault(x => x.Npc == npc);
     }
 
     /// <summary>
@@ -134,11 +162,12 @@ public static class API
             return false;
         }
 
-        if (NpcToSettings.TryGetValue(npc, out MusicInstance settings))
+        var musicInstance = MusicInstance.FirstOrDefault(x => x.Npc == npc);
+        if (musicInstance != null)
         {
-            settings.AudioPlayerBase?.OnDestroy();
+            musicInstance.AudioPlayerBase?.OnDestroy();
 
-            NpcToSettings.Remove(npc);
+            MusicInstance.Remove(musicInstance);
         }
 
         try

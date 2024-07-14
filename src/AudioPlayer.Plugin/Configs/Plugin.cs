@@ -26,26 +26,23 @@ public sealed class Plugin : IConfig
     public bool IsEventsEnabled { get; set; } = false;
 
     /// <summary/>
+    [Description("Name for NPC playing music in lobby.")]
+    public string LobbyMusicNPCName { get; set; } = "Lobby music";
+
+    /// <summary/>
     [Description("Plays music in lobby. Remove value IsEnabled or set value to true to enable it.")]
     public List<AudioFile> LobbyMusic { get; set; } = new()
     {
         {
-        new(
-            Path.Combine(AudioFile.RawFilePath, "lobby_music.ogg"),
-            false,
-            true,
-            75,
-            VoiceChat.VoiceChatChannel.PreGameLobby,
-            -1)
-        },
-        {
-        new(
-            Path.Combine(AudioFile.RawFilePath, "lobby_music1.ogg"),
-            false,
-            true,
-            75,
-            VoiceChat.VoiceChatChannel.PreGameLobby,
-            -1)
+            new()
+            {
+                FilePath = Path.Combine(AudioFile.RawFilePath, "lobby_music.ogg"),
+                IsEnabled = false,
+                IsLooped = true,
+                VoiceChannel = VoiceChat.VoiceChatChannel.Intercom,
+                Volume = 75,
+                BotId = -1,
+            }
         },
     };
 }
