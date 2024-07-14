@@ -10,10 +10,9 @@ using Exiled.API.Features;
 using HarmonyLib;
 using PlayerRoles;
 using SCPSLAudioApi;
-using UnityEngine;
 
 /// <summary>
-/// Main API class to interact with NPC.
+/// Main API class.
 /// </summary>
 public static class API
 {
@@ -174,6 +173,36 @@ public static class API
         try
         {
             npc.Destroy();
+
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            Log.Error(ex);
+
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Destroy NPC.
+    /// </summary>
+    /// <param name="musicInstance">Music Instance.</param>
+    /// <returns>Indicates NPC is successfuly destroyed or not.</returns>
+    public static bool DestroyNPC(MusicInstance musicInstance)
+    {
+        if (musicInstance.Npc == null)
+        {
+            return false;
+        }
+
+        musicInstance.AudioPlayerBase?.OnDestroy();
+
+        MusicInstance.Remove(musicInstance);
+
+        try
+        {
+            musicInstance?.Npc.Destroy();
 
             return true;
         }

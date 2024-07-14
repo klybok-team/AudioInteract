@@ -47,7 +47,7 @@ public class AudioFile
     /// Gets default path to audio file directory, leads to EXILED root directory (EXILED/Audio).
     /// </summary>
     [YamlIgnore]
-    public static string RawFilePath => Path.Combine(Paths.Exiled, "Audio");
+    public static string RawFilePath => Extensions.FolderPath;
 
     /// <summary>
     /// Gets or sets a value indicating whether this audio file enabled or not.

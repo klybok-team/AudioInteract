@@ -4,6 +4,8 @@
 
 namespace AudioPlayer.Plugin;
 
+// НА 5 ЛАЙКОВ ДОБАВЛЯЮ НОВЫЕ ИВЕНТЫ ДЛЯ АЙПИ
+// СТАВЬТЕ ЛАЙК И МЕРЖИТЕ СВОЙ ПУЛЛ РЕКВЕСТ - 1 лайк
 using AudioPlayerAPI = AudioPlayer.Features.API;
 
 /// <inheritdoc/>
@@ -24,7 +26,7 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     public override string Author => "Klybok Team";
 
     /// <inheritdoc/>
-    public override Version Version => new(1, 0, 0);
+    public override Version Version => new(1, 4, 8, 8);
 
     /// <summary/>
     public Handlers.EventHandlers? EventHandlers { get; set; }

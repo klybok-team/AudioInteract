@@ -4,7 +4,7 @@
 
 namespace AudioPlayer.Plugin.Handlers;
 
-using Exiled.API.Features;
+using AudioPlayer.Features;
 using AudioAPI = AudioPlayer.Features.API;
 using ServerEvent = Exiled.Events.Handlers.Server;
 
@@ -42,16 +42,16 @@ public class EventHandlers
     /// <summary>
     /// Gets lobby playing NPCs.
     /// </summary>
-    public static List<Npc> LobbyPlayingNPC { get; private set; } = new();
+    public static List<MusicInstance> LobbyPlayingNPC { get; private set; } = new();
 
     /// <summary>
     /// Plays music (if exists) on waiting for players (lobby).
     /// </summary>
     public void OnWaitingForPlayers_EnableMusic()
     {
-        foreach (Features.AudioFile? audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
+        foreach (AudioFile audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
         {
-            Features.MusicInstance? musicInstance = AudioAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
+            MusicInstance? musicInstance = AudioAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
 
             if (musicInstance == null)
             {
@@ -61,6 +61,8 @@ public class EventHandlers
             musicInstance.LoggedType = Features.LoggedType.Info;
 
             musicInstance.Play(audioFile);
+
+            LobbyPlayingNPC.Add(musicInstance);
         }
     }
 
@@ -69,9 +71,9 @@ public class EventHandlers
     /// </summary>
     public void OnRoundStarted_StopMusic()
     {
-        foreach (Npc npc in LobbyPlayingNPC)
+        foreach (MusicInstance musicInstance in LobbyPlayingNPC)
         {
-            AudioAPI.DestroyNPC(npc);
+            AudioAPI.DestroyNPC(musicInstance);
         }
     }
 }

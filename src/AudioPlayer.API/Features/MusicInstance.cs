@@ -164,6 +164,12 @@ public partial class MusicInstance
             Log.Warn("AudioFile is not enabled, skipping.");
         }
 
+        if (!Extensions.CheckTrack(audioFile))
+        {
+            Log.Error($"Audio File doesn't support. ({audioFile.FilePath})");
+            return;
+        }
+
         Timing.CallDelayed(0.2f, () =>
         {
             this.Npc!.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
@@ -199,6 +205,18 @@ public partial class MusicInstance
         {
             this.AudioPlayerBase.Play(0);
         }
+    }
+
+    // bro tf is this summary lol
+
+    /// <summary>
+    /// Check track.
+    /// </summary>
+    /// <param name="audioFile">Audio File to check.</param>
+    /// <returns>Is track is normal or not.</returns>
+    public bool CheckTrack(AudioFile audioFile)
+    {
+        return Extensions.CheckTrack(audioFile);
     }
 
     /// <summary>
@@ -273,9 +291,8 @@ public partial class MusicInstance
     /// <summary>
     /// Stop playing music. Remove all music in queue.
     /// </summary>
-    /// <returns>Is music stopped or not.</returns>
-    public bool Stop()
+    public void Stop()
     {
-        return true;
+        this.AudioPlayerBase.Stoptrack(true);
     }
 }

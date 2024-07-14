@@ -14,15 +14,14 @@ public static class Extensions
     /// <summary>
     /// Gets path to audio file root directory. Leads to EXILED root directory (EXILED/Audio).
     /// </summary>
-    public static string FolderPath { get; } = Path.Combine(Paths.Exiled, "Audio", "track.ogg");
+    public static string FolderPath { get; } = Path.Combine(Paths.Exiled, "Audio");
 
     /// <summary>
     /// Checks the path for playable track.
     /// </summary>
     /// <param name="audioFile">AudioFile to check.</param>
-    /// <param name="editedFile">Gets the edited file if he wasn't be .ogg or don't match codec || sampling rate.</param>
     /// <returns>Is file exists and ready to be played.</returns>
-    public static bool CheckTrack(AudioFile audioFile, out AudioFile? editedFile)
+    public static bool CheckTrack(AudioFile audioFile)
     {
         if (!Directory.Exists(FolderPath))
         {
@@ -31,27 +30,39 @@ public static class Extensions
 
         if (!File.Exists(audioFile.FilePath))
         {
-            editedFile = null;
             return false;
         }
 
         if (Path.GetExtension(audioFile.FilePath) != ".ogg")
         {
-            editedFile = ConvertToOgg(audioFile);
-            return editedFile != null;
+            return false;
         }
 
-        editedFile = null;
         return true;
     }
 
     /// <summary>
-    /// Convert file to playable track.
+    /// Checks the path for playable track.
     /// </summary>
-    /// <param name="audioFile">AudioFile to convert.</param>
-    /// <returns>Returns null if file wasn't be converted. Returns new file class with edited path if was.</returns>
-    public static AudioFile? ConvertToOgg(AudioFile audioFile)
+    /// <param name="filePath">Path to file.</param>
+    /// <returns>Is file exists and ready to be played.</returns>
+    public static bool CheckTrack(string filePath)
     {
-        return null;
+        if (!Directory.Exists(FolderPath))
+        {
+            Directory.CreateDirectory(FolderPath);
+        }
+
+        if (!File.Exists(filePath))
+        {
+            return false;
+        }
+
+        if (Path.GetExtension(filePath) != ".ogg")
+        {
+            return false;
+        }
+
+        return true;
     }
 }
