@@ -86,7 +86,7 @@ public static class API
     /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
     /// <param name="position">Position setted to NPC. null = don't set.</param>
     /// <returns>Indicates NPC is successfuly created or not.</returns>
-    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId, Vector3? position = null)
+    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = "dummy@localhost", Vector3? position = null)
     {
         // PlayerAuthenticationManager.DedicatedId
         try
@@ -116,6 +116,8 @@ public static class API
             {
                 Log.Debug($"Ignore: {e}");
             }
+
+            npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.Host;
 
             MusicInstance.Add(new(npc));
 
