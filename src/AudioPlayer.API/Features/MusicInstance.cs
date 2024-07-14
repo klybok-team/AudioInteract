@@ -7,9 +7,11 @@ namespace AudioPlayer.Features;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using MEC;
 using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
 using UnityEngine;
+using VoiceChat;
 
 /// <summary>
 /// Music Instance API for NPC. Main API to interact with SCPSLAudioPlayer.
@@ -162,17 +164,20 @@ public partial class MusicInstance
             Log.Warn("AudioFile is not enabled, skipping.");
         }
 
-        this.Npc?.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
-
-        if (audioFile.RoomType.HasValue && audioFile.RoomType.Value != RoomType.Unknown && audioFile.LocalRoomPostion.HasValue && audioFile.LocalRoomPostion != Vector3.zero)
+        Timing.CallDelayed(0.2f, () =>
         {
-            this.Npc!.Position = Room.Get(audioFile.RoomType.Value).WorldPosition(audioFile.LocalRoomPostion.Value);
-        }
+            this.Npc!.Role.Set(audioFile.RoleType, RoleSpawnFlags.UseSpawnpoint);
 
-        if (audioFile.Postion.HasValue && audioFile.Postion != Vector3.zero)
-        {
-            this.Npc!.Position = audioFile.Postion.Value;
-        }
+            if (audioFile.RoomType != RoomType.Unknown && audioFile.LocalRoomPostion != Vector3.zero)
+            {
+                this.Npc!.Position = Room.Get(audioFile.RoomType).WorldPosition(audioFile.LocalRoomPostion) + Vector3.up;
+            }
+
+            if (audioFile.Postion != Vector3.zero)
+            {
+                this.Npc!.Position = audioFile.Postion;
+            }
+        });
 
         this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
         this.AudioPlayerBase.Volume = audioFile.Volume;
@@ -200,8 +205,14 @@ public partial class MusicInstance
     /// Immediately starts playing music.
     /// </summary>
     /// <param name="path">Path to file.</param>
-    public void Play(string path)
+    /// <param name="voiceChannel">Voice channel to play.</param>
+    /// <param name="loop">Loop track or not.</param>
+    public void Play(string path, VoiceChatChannel voiceChannel, bool loop)
     {
+        this.AudioPlayerBase.BroadcastChannel = voiceChannel;
+
+        this.AudioPlayerBase.Loop = loop;
+
         this.AudioPlayerBase.Enqueue(path, 0);
 
         if (this.AudioPlayerBase.CurrentPlay == null)

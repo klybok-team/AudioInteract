@@ -10,6 +10,7 @@ using Exiled.API.Features;
 using PlayerRoles;
 using UnityEngine;
 using VoiceChat;
+using YamlDotNet.Serialization;
 
 /// <summary>
 /// Creates audio file to easy interact with API.
@@ -45,6 +46,7 @@ public class AudioFile
     /// <summary>
     /// Gets default path to audio file directory, leads to EXILED root directory (EXILED/Audio).
     /// </summary>
+    [YamlIgnore]
     public static string RawFilePath => Path.Combine(Paths.Exiled, "Audio");
 
     /// <summary>
@@ -86,22 +88,26 @@ public class AudioFile
     /// <summary>
     /// Gets or sets current bot role. Leave overwatch to not spawn bot.
     /// </summary>
+    [Description("Gets or sets current bot role. Leave any non-playable role (spectrator, etc) to not spawn bot.")]
     public RoleTypeId RoleType { get; set; } = RoleTypeId.Overwatch;
 
     /// <summary>
     /// Gets or sets current bot position. Leave to not spawn bot.
     /// </summary>
-    public Vector3? Postion { get; set; } = null;
+    [Description("Gets or sets current bot position. Leave x, y, z zero or null to not spawn.")]
+    public Vector3 Postion { get; set; } = new(0, 0, 0);
 
     /// <summary>
     /// Gets or sets current bot room type to set local position. Leave to not spawn bot.
     /// </summary>
-    public RoomType? RoomType { get; set; } = null;
+    [Description("Gets or sets current bot room type. Leave null to not spawn bot in room.")]
+    public RoomType RoomType { get; set; } = RoomType.Unknown;
 
     /// <summary>
     /// Gets or sets current bot local position for room. Leave to not spawn bot.
     /// </summary>
-    public Vector3? LocalRoomPostion { get; set; } = null;
+    [Description("Gets or sets current bot LOCAL room position. Leave x, y, z zero or null to not spawn, local-room-position command to get.")]
+    public Vector3 LocalRoomPostion { get; set; } = new(0, 0, 0);
 
     /// <summary>
     /// Gets or sets ID of bot. If ID is negative, API will create new bot with random ID, if not - try to create with selected ID..
