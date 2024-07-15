@@ -1,4 +1,4 @@
-﻿// <copyright file="List.cs" company="Klybok Team">
+﻿// <copyright file="InstanceMode.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
@@ -8,21 +8,21 @@ using CommandSystem;
 using Exiled.API.Features;
 
 /// <summary>
-/// Get list of all audio-player bots.
+/// Gets or sets InstanceMode for bot.
 /// </summary>
-public class Lisdfsdfst : ICommand
+public class InstanceMode : ICommand
 {
     /// <inheritdoc/>
-    public string Command { get; } = "list";
+    public string Command { get; } = "InstanceMode";
 
     /// <inheritdoc/>
-    public string Description { get; } = "Get all currently existing bots.";
+    public string Description { get; } = "Gets or sets bot instance mode.";
 
     /// <inheritdoc/>
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["vc", "v-c"];
+    public string[] Aliases { get; } = ["im", "i-m"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)

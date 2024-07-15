@@ -16,7 +16,7 @@ using VoiceChat;
 /// <summary>
 /// Music Instance API for NPC. Main API to interact with SCPSLAudioPlayer.
 /// </summary>
-public partial class MusicInstance
+public class MusicInstance
 {
     private LoggedType loggedType = LoggedType.None;
 

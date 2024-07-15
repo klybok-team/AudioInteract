@@ -5,13 +5,24 @@
 namespace AudioPlayer.Plugin.Commands;
 
 using CommandSystem;
+using Exiled.API.Features;
+using global::AudioPlayer.Features;
+using VoiceChat;
 
 /// <summary/>
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
 internal class AudioPlayerParent : ParentCommand
 {
     /// <inheritdoc/>
-    public AudioPlayerParent() => this.LoadGeneratedCommands();
+    public AudioPlayerParent()
+    {
+        this.LoadGeneratedCommands();
+    }
+
+    /// <summary>
+    /// Gets or sets audio file.
+    /// </summary>
+    public static Dictionary<int, AudioInfo> IDAudioFile { get; set; } = new();
 
     /// <inheritdoc/>
     public override string Command { get; } = "audioplayer";
@@ -41,5 +52,30 @@ internal class AudioPlayerParent : ParentCommand
 
         response = responseTXT;
         return true;
+    }
+
+    /// <summary>
+    /// Audio info class.
+    /// </summary>
+    public class AudioInfo
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AudioInfo"/> class.
+        /// </summary>
+        /// <param name="linknpc">NPC to link.</param>
+        public AudioInfo(Npc linknpc)
+        {
+            this.MusicInstance = new(linknpc);
+        }
+
+        /// <summary>
+        /// Gets or sets audio file.
+        /// </summary>
+        public AudioFile AudioFile { get; set; } = new();
+
+        /// <summary>
+        /// Gets or sets music instance.
+        /// </summary>
+        public required MusicInstance MusicInstance { get; set; }
     }
 }
