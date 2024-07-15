@@ -29,7 +29,13 @@ public class List : ICommand
     {
         response = "Current active bots:";
 
-        foreach (var audioFile in AudioPlayerParent.IDAudioFile)
+        if (AudioPlayerParent.IDAudioFile.Count < 1)
+        {
+            response += "\nThere currently no active bots.";
+            return true;
+        }
+
+        foreach (KeyValuePair<int, AudioPlayerParent.AudioInfo> audioFile in AudioPlayerParent.IDAudioFile)
         {
             Npc npc = audioFile.Value.MusicInstance.Npc;
 

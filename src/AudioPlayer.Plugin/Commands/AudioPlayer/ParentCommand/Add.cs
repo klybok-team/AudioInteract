@@ -1,47 +1,37 @@
-﻿// <copyright file="List.cs" company="Klybok Team">
+﻿// <copyright file="Add.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
 namespace AudioPlayer.Plugin.Commands;
 
+using AudioPlayer.Features;
 using CommandSystem;
-using Exiled.API.Features;
 
 /// <summary>
-/// Get list of all audio-player bots.
+/// Add bot.
 /// </summary>
-public class Lisdfsdfst : ICommand
+public class Add : ICommand
 {
     /// <inheritdoc/>
-    public string Command { get; } = "list";
+    public string Command { get; } = "add";
 
     /// <inheritdoc/>
-    public string Description { get; } = "Get all currently existing bots.";
+    public string Description { get; } = "Creates new bot. Enter anything to set name of bot.";
 
     /// <inheritdoc/>
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["vc", "v-c"];
+    public string[] Aliases { get; } = Array.Empty<string>();
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        if (arguments.Count < 1)
-        {
-            response = "Введите ID пользователя/ей (через .) для выдачи.";
-            return false;
-        }
+        int botID = AudioPlayerParent.IDAudioFile.Count;
 
-        response = "Current active bots:";
+        AudioPlayerParent.IDAudioFile.Add(botID, new(API.CreateNPC(arguments.Count > 0 ? string.Join(" ", arguments) : "Bot")));
 
-        foreach (var audioFile in AudioPlayerParent.IDAudioFile)
-        {
-            Npc npc = audioFile.Value.MusicInstance.Npc;
-
-            response += $"\n\n[Plugin ID: {audioFile.Key}, in-game ID: {npc.Id}] {npc.CustomName}, current InstanceMode: {npc.ReferenceHub.authManager.InstanceMode}";
-        }
-
+        response = $"Created new bot with plugin ID: {botID} and in-game ID: {AudioPlayerParent.IDAudioFile[botID].MusicInstance.Npc.Id}. Bot automatically hidden in list. InstanceMode mod command to unhide.";
         return true;
     }
 }

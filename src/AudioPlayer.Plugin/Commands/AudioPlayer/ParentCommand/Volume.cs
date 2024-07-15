@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace AudioPlayer.Plugin;
 
-namespace AudioPlayer.Plugin.Commands.AudioPlayer.ParentCommand
+internal class Volume
 {
-    internal class Volume
-    {
-    }
 }

@@ -86,46 +86,38 @@ public static class API
     /// <param name="role">Role setted to NPC.</param>
     /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
     /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
-    /// <returns>Indicates NPC is successfuly created or not.</returns>
-    public static MusicInstance? CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
+    /// <returns>Returns Music Instance.</returns>
+    public static MusicInstance CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
+        Npc npc = Npc.Spawn(name, role, id, userID);
+
         try
         {
-            Npc npc = Npc.Spawn(name, role, id, userID);
-
-            try
+            if (userID == PlayerAuthenticationManager.DedicatedId)
             {
-                if (userID == PlayerAuthenticationManager.DedicatedId)
+                npc.ReferenceHub.authManager.SyncedUserId = userID;
+                try
                 {
-                    npc.ReferenceHub.authManager.SyncedUserId = userID;
-                    try
-                    {
-                        npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug($"Ignore: {e}");
-                    }
+                    npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
                 }
-                else
+                catch (Exception e)
                 {
-                    npc.ReferenceHub.authManager.UserId = userID == string.Empty ? $"Dummy@localhost" : userID;
+                    Log.Debug($"Ignore: {e}");
                 }
             }
-            catch (Exception e)
+            else
             {
-                Log.Debug($"Ignore: {e}");
+                npc.ReferenceHub.authManager.UserId = userID == string.Empty ? $"Dummy@localhost" : userID;
             }
-
-            MusicInstance.Add(new(npc));
-
-            return MusicInstance.FirstOrDefault(x => x.Npc == npc);
         }
-        catch (System.Exception ex)
+        catch (Exception e)
         {
-            Log.Error(ex);
-            return null;
+            Log.Debug($"Ignore: {e}");
         }
+
+        MusicInstance.Add(new(npc));
+
+        return MusicInstance.FirstOrDefault(x => x.Npc == npc);
     }
 
     /// <summary>

@@ -5,7 +5,6 @@
 namespace AudioPlayer.Plugin.Commands;
 
 using CommandSystem;
-using Exiled.API.Features;
 
 public class VoiceChannel : ICommand
 {
@@ -30,27 +29,7 @@ public class VoiceChannel : ICommand
             return false;
         }
 
-        List<Player> addedPlayers = new();
-
-        foreach (string? str in arguments.At(0).Split('.'))
-            if (Player.TryGet(str, out Player pl)) addedPlayers.Add(pl);
-
         response = "";
-
-        foreach (Player player in addedPlayers)
-        {
-            if (SetterAPI.CI.Contains(player))
-            {
-                SetterAPI.CI.Remove(player);
-                response += $"{player.Nickname} теперь <color=red>убран</color> из ПХа\n";
-            }
-            else
-            {
-                SetterAPI.CI.Add(player);
-                response += $"{player.Nickname} теперь <color=green>добавлен</color> в ПХ\n";
-            }
-        }
-
         return true;
     }
 }

@@ -5,7 +5,6 @@
 namespace AudioPlayer.Plugin.Commands;
 
 using CommandSystem;
-using Exiled.API.Features;
 
 /// <summary>
 /// Gets or sets InstanceMode for bot.
@@ -29,19 +28,23 @@ public class InstanceMode : ICommand
     {
         if (arguments.Count < 1)
         {
-            response = "Введите ID пользователя/ей (через .) для выдачи.";
+            response = "Enter ID of bot, get IDs of bots: a-p list";
             return false;
         }
 
-        response = "Current active bots:";
-
-        foreach (var audioFile in AudioPlayerParent.IDAudioFile)
+        if (!int.TryParse(arguments.At(0), out int search_value))
         {
-            Npc npc = audioFile.Value.MusicInstance.Npc;
-
-            response += $"\n\n[Plugin ID: {audioFile.Key}, in-game ID: {npc.Id}] {npc.CustomName}, current InstanceMode: {npc.ReferenceHub.authManager.InstanceMode}";
+            response = "Enter ID of bot, get IDs of bots: a-p list";
+            return false;
         }
 
+        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        {
+            response = "Bot not found.";
+            return false;
+        }
+
+        response = "Bot not found.";
         return true;
     }
 }

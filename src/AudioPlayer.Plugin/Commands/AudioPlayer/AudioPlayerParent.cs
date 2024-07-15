@@ -7,7 +7,6 @@ namespace AudioPlayer.Plugin.Commands;
 using CommandSystem;
 using Exiled.API.Features;
 using global::AudioPlayer.Features;
-using VoiceChat;
 
 /// <summary/>
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -69,6 +68,15 @@ internal class AudioPlayerParent : ParentCommand
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AudioInfo"/> class.
+        /// </summary>
+        /// <param name="musicInstance">Music Instance to link.</param>
+        public AudioInfo(MusicInstance musicInstance)
+        {
+            this.MusicInstance = musicInstance;
+        }
+
+        /// <summary>
         /// Gets or sets audio file.
         /// </summary>
         public AudioFile AudioFile { get; set; } = new();
@@ -76,6 +84,6 @@ internal class AudioPlayerParent : ParentCommand
         /// <summary>
         /// Gets or sets music instance.
         /// </summary>
-        public required MusicInstance MusicInstance { get; set; }
+        public MusicInstance MusicInstance { get; set; }
     }
 }

@@ -106,6 +106,15 @@ public class MusicInstance
     }
 
     /// <summary>
+    /// Gets or sets voice chat channel of bot.
+    /// </summary>
+    public VoiceChatChannel VoiceChat
+    {
+        get => this.AudioPlayerBase.BroadcastChannel;
+        set => this.AudioPlayerBase.BroadcastChannel = value;
+    }
+
+    /// <summary>
     /// Gets a value indicating whether track is finished or not.
     /// </summary>
     public bool IsFinished => this.AudioPlayerBase.IsFinished;
@@ -157,7 +166,8 @@ public class MusicInstance
     /// Immediately starts playing music.
     /// </summary>
     /// <param name="audioFile">Plays the <see cref="AudioFile"/>.</param>
-    public void Play(AudioFile audioFile)
+    /// <returns>This.</returns>
+    public MusicInstance? Play(AudioFile audioFile)
     {
         if (!audioFile.IsEnabled)
         {
@@ -167,7 +177,7 @@ public class MusicInstance
         if (!Extensions.CheckTrack(audioFile))
         {
             Log.Error($"Audio File doesn't support. ({audioFile.FilePath})");
-            return;
+            return null;
         }
 
         Timing.CallDelayed(0.2f, () =>
@@ -205,6 +215,8 @@ public class MusicInstance
         {
             this.AudioPlayerBase.Play(0);
         }
+
+        return this;
     }
 
     // bro tf is this summary lol
@@ -225,7 +237,8 @@ public class MusicInstance
     /// <param name="path">Path to file.</param>
     /// <param name="voiceChannel">Voice channel to play.</param>
     /// <param name="loop">Loop track or not.</param>
-    public void Play(string path, VoiceChatChannel voiceChannel, bool loop)
+    /// <returns>This.</returns>
+    public MusicInstance Play(string path, VoiceChatChannel voiceChannel, bool loop = false)
     {
         this.AudioPlayerBase.BroadcastChannel = voiceChannel;
 
@@ -237,6 +250,8 @@ public class MusicInstance
         {
             this.AudioPlayerBase.Play(0);
         }
+
+        return this;
     }
 
     /// <summary>
