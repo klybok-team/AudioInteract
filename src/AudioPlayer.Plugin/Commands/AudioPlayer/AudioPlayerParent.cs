@@ -41,6 +41,8 @@ internal class AudioPlayerParent : ParentCommand
         this.RegisterCommand(new Remove());
         this.RegisterCommand(new VoiceChannel());
         this.RegisterCommand(new Volume());
+        this.RegisterCommand(new Play());
+        this.RegisterCommand(new Stop());
     }
 
     /// <inheritdoc/>

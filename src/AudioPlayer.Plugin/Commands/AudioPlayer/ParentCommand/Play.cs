@@ -51,7 +51,8 @@ public class Play : ICommand
             return false;
         }
 
-        string path = arguments.At(1);
+        // skipping first
+        string path = string.Join(" ", arguments.Skip(1));
 
         if (!Extensions.CheckTrack(path))
         {
