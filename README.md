@@ -10,11 +10,11 @@ https://github.com/klybok-team/AudioPlayer/tree/main/src/AudioPlayer.Plugin
 
 Installation:
 
-API:
+# API:
 
 Install only *.API file and move it to dependencies folder.
 
-Plugin:
+# Plugin:
 
 Install *.API file and move it to dependencies folder.
 
