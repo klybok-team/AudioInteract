@@ -8,6 +8,7 @@ using System.Reflection;
 using CentralAuth;
 using Exiled.API.Features;
 using HarmonyLib;
+using NVorbis.Contracts;
 using PlayerRoles;
 using SCPSLAudioApi;
 
@@ -77,6 +78,26 @@ public static class API
 
         harmony?.UnpatchAll();
         harmony = null;
+    }
+
+    /// <summary>
+    /// Get file tags.
+    /// </summary>
+    /// <param name="filePath">Path to file.</param>
+    /// <returns><see cref="ITagData"/>.</returns>
+    public static ITagData GetFileTags(string filePath)
+    {
+        return new NVorbis.VorbisReader(filePath).Tags;
+    }
+
+    /// <summary>
+    /// Get file tags.
+    /// </summary>
+    /// <param name="audioFile">Audio File.</param>
+    /// <returns><see cref="ITagData"/>.</returns>
+    public static ITagData GetFileTags(AudioFile audioFile)
+    {
+        return new NVorbis.VorbisReader(audioFile.FilePath).Tags;
     }
 
     /// <summary>

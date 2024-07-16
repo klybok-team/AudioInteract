@@ -82,7 +82,7 @@ public class AudioFile
     /// <summary>
     /// Gets or sets <see cref="VoiceChatChannel"/> of bot. Default is Intercom.
     /// </summary>
-    [Description("Get the voice channel of bot.")]
+    [Description("Get the voice channel of bot. See https://github.com/klybok-team/AudioPlayer/blob/main/src/AudioPlayer.Plugin/README.md for more info.")]
     public VoiceChatChannel VoiceChannel { get; set; } = VoiceChatChannel.Intercom;
 
     /// <summary>
