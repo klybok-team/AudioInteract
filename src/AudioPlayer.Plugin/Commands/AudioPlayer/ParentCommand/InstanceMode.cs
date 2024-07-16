@@ -4,7 +4,9 @@
 
 namespace AudioPlayer.Plugin.Commands;
 
+using CentralAuth;
 using CommandSystem;
+using Exiled.API.Features;
 
 /// <summary>
 /// Gets or sets InstanceMode for bot.
@@ -44,7 +46,27 @@ public class InstanceMode : ICommand
             return false;
         }
 
-        response = "Bot not found.";
-        return true;
+        try
+        {
+            if (info.MusicInstance.Npc.ReferenceHub.authManager.InstanceMode == ClientInstanceMode.DedicatedServer)
+            {
+                response = "Changed InstanceMode to Host.";
+                info.MusicInstance.Npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.Host;
+            }
+            else
+            {
+                response = "Changed InstanceMode to Dedicated Server.";
+                info.MusicInstance.Npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex);
+
+            response = "Error when changing instance mode.";
+            return false;
+        }
     }
 }

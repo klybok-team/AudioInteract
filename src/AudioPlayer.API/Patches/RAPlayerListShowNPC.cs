@@ -12,7 +12,9 @@ using Exiled.API.Features;
 using Exiled.API.Features.Pools;
 using HarmonyLib;
 using RemoteAdmin.Communication;
+using UnityEngine;
 using static HarmonyLib.AccessTools;
+using static HarmonyLib.Code;
 using StringBuilderPool = NorthwoodLib.Pools.StringBuilderPool;
 
 /// <summary>
@@ -29,11 +31,8 @@ public static class RAPlayerListShowNPC
     {
         List<CodeInstruction> newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
 
-        int index = newInstructions.FindIndex(instruction =>
-            instruction.opcode == OpCodes.Callvirt
-            && (MethodInfo)instruction.operand == Method(typeof(StringBuilder), nameof(StringBuilderPool.Shared.Rent)));
-
-        index += -1;
+    // please add index
+    /* 0x0003169C 2D0A IL_0084: brtrue.s IL_0090 Transfers control to a target instruction (short form) if value is true, not null, or non-zero. */
 
         newInstructions.InsertRange(
             84,
@@ -61,6 +60,12 @@ public static class RAPlayerListShowNPC
         {
             foreach (Features.MusicInstance musicInstance in AudioPlayer.Features.API.MusicInstance)
             {
+                if (musicInstance.Npc.ReferenceHub.Mode != CentralAuth.ClientInstanceMode.DedicatedServer)
+                {
+                    // если какой-либо другой мод - видно в RA и списке.
+                    continue;
+                }
+
                 stringBuilder.AppendLine($"({musicInstance.Npc.Id}) {musicInstance.Npc.ReferenceHub.nicknameSync.CombinedName.Replace("\n", string.Empty).Replace("RA_", string.Empty)}");
             }
         }

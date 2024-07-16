@@ -31,7 +31,7 @@ public class Add : ICommand
 
         AudioPlayerParent.IDAudioFile.Add(botID, new(API.CreateNPC(arguments.Count > 0 ? string.Join(" ", arguments) : "Bot")));
 
-        response = $"Created new bot with plugin ID: {botID} and in-game ID: {AudioPlayerParent.IDAudioFile[botID].MusicInstance.Npc.Id}. Bot automatically hidden in list. InstanceMode mod command to unhide.";
+        response = $"Created new bot with plugin ID: {botID} and in-game ID: {AudioPlayerParent.IDAudioFile[botID].MusicInstance.Npc.Id}. Bot automatically hidden in list, but display in RA. InstanceMode mod command to unhide.";
         return true;
     }
 }

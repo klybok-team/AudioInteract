@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TargetFramework>net4.8</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -21,7 +21,6 @@
 	<AdditionalFiles Include="../../stylecop.json" />
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
   </ItemGroup>
-	
   <ItemGroup>
     <ProjectReference Include="..\AudioPlayer.API\AudioPlayer.API.csproj" />
   </ItemGroup>

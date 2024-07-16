@@ -108,7 +108,7 @@ public class MusicInstance
     /// <summary>
     /// Gets or sets voice chat channel of bot.
     /// </summary>
-    public VoiceChatChannel VoiceChat
+    public VoiceChatChannel VoiceChatChannel
     {
         get => this.AudioPlayerBase.BroadcastChannel;
         set => this.AudioPlayerBase.BroadcastChannel = value;
@@ -160,6 +160,15 @@ public class MusicInstance
     {
         get => this.AudioPlayerBase.Shuffle;
         set => this.AudioPlayerBase.Shuffle = value;
+    }
+
+    /// <summary>
+    /// Gets or sets volume of bot.
+    /// </summary>
+    public float Volume
+    {
+        get => this.AudioPlayerBase.Volume;
+        set => this.AudioPlayerBase.Volume = value;
     }
 
     /// <summary>
@@ -288,7 +297,7 @@ public class MusicInstance
     }
 
     /// <summary>
-    /// Start playing music if current play is null & there is tracks in queue.
+    /// Start playing music if current play is null and there is tracks in queue.
     /// </summary>
     public void Play()
     {

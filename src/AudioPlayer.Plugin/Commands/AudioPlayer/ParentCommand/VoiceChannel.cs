@@ -4,32 +4,67 @@
 
 namespace AudioPlayer.Plugin.Commands;
 
+using CentralAuth;
 using CommandSystem;
+using Exiled.API.Features;
+using VoiceChat;
 
+/// <summary>
+/// Gets or sets voice channel for bot.
+/// </summary>
 public class VoiceChannel : ICommand
 {
     /// <inheritdoc/>
-    public string Command { get; } = "voice-channel";
+    public string Command { get; } = "voicechannel";
 
     /// <inheritdoc/>
-    public string Description { get; } = "Set current voice channel of bot.";
+    public string Description { get; } = "Gets or sets bot voice channel.";
 
     /// <inheritdoc/>
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["vc", "v-c"];
+    public string[] Aliases { get; } = ["im", "i-m"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
         if (arguments.Count < 1)
         {
-            response = "Введите ID пользователя/ей (через .) для выдачи.";
+            response = "Enter ID of bot, get IDs of bots: a-p list";
             return false;
         }
 
-        response = "";
+        if (!int.TryParse(arguments.At(0), out int search_value))
+        {
+            response = "Enter ID of bot, get IDs of bots: a-p list";
+            return false;
+        }
+
+        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        {
+            response = "Bot not found.";
+            return false;
+        }
+
+        if (arguments.Count < 2 || !Enum.TryParse<VoiceChatChannel>(arguments.At(1), out var voiceChannel))
+        {
+            response = "Enter voice channel of bot. There currently:"
+                + $"\n{VoiceChatChannel.Proximity}"
+                + $"\n{VoiceChatChannel.Radio} (sound modification, hear all with Radio)"
+                + $"\n{VoiceChatChannel.ScpChat} (only SCP can hear it)"
+                + $"\n{VoiceChatChannel.Spectator} (hear only spectrators?)"
+                + $"\n{VoiceChatChannel.RoundSummary} (hear all)"
+                + $"\n{VoiceChatChannel.Intercom} (sound modification)"
+                + $"\n{VoiceChatChannel.Mimicry}"
+                + $"\n{VoiceChatChannel.Scp1576} (sound modification)"
+                + $"\n{VoiceChatChannel.PreGameLobby} (hear all)";
+            return false;
+        }
+
+        info.MusicInstance.VoiceChatChannel = voiceChannel;
+
+        response = $"Setted bot channel to {voiceChannel}.";
         return true;
     }
 }
