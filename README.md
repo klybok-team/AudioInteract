@@ -12,12 +12,16 @@ Installation:
 
 # API:
 
-Install only *.API file and move it to dependencies folder.
+Install SCPSLAudioAPI.dll and move it to dependencies folder.
+
+Install AudioPlayer.API.dll file and move it to dependencies folder.
 
 # Plugin:
 
-Install *.API file and move it to dependencies folder.
+Install SCPSLAudioAPI.dll and move it to dependencies folder.
 
-Install *.Plugin file and move it to plugin folder.
+Install AudioPlayer.API.dll file and move it to dependencies folder.
+
+Install AudioPlayer.Plugin.dll file and move it to plugin folder.
 
 See the config for more info. Also don't forget you have is_enabled field & is_events_enabled
