@@ -5,9 +5,7 @@
 namespace AudioPlayer.Plugin.Commands;
 
 using AudioPlayer.Features;
-using CentralAuth;
 using CommandSystem;
-using Exiled.API.Features;
 
 /// <summary>
 /// Remove bot.
@@ -47,7 +45,7 @@ public class Remove : ICommand
             return false;
         }
 
-        var isSuccess = API.DestroyNPC(info.MusicInstance);
+        bool isSuccess = API.DestroyNPC(info.MusicInstance);
 
         AudioPlayerParent.IDAudioFile.Remove(search_value);
 

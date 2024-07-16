@@ -1,27 +1,28 @@
-﻿// <copyright file="Volume.cs" company="Klybok Team">
+﻿// <copyright file="Play.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
 namespace AudioPlayer.Plugin.Commands;
 
+using AudioPlayer.Features;
 using CommandSystem;
 
 /// <summary>
-/// Gets or sets volume for bot.
+/// Play music.
 /// </summary>
-public class Volume : ICommand
+public class Play : ICommand
 {
     /// <inheritdoc/>
-    public string Command { get; } = "volume";
+    public string Command { get; } = "play";
 
     /// <inheritdoc/>
-    public string Description { get; } = "Gets or sets bot instance mode.";
+    public string Description { get; } = "Play music.";
 
     /// <inheritdoc/>
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["v"];
+    public string[] Aliases { get; } = ["p"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
@@ -46,19 +47,24 @@ public class Volume : ICommand
 
         if (arguments.Count < 2)
         {
-            response = "Enter volume.";
+            response = "Enter path to audio file.";
             return false;
         }
 
-        if (!int.TryParse(arguments.At(1), out int value))
+        string path = arguments.At(1);
+
+        if (!Extensions.CheckTrack(path))
         {
-            response = "Enter volume.";
+            response = "Path not valid.";
             return false;
         }
 
-        info.MusicInstance.Volume = value;
+        // trololo
+        info.AudioFile.FilePath = path;
 
-        response = $"Setted bot volume to {value}.";
+        info.MusicInstance.Play(info.AudioFile);
+
+        response = $"Playing track at path - {path}";
         return true;
     }
 }

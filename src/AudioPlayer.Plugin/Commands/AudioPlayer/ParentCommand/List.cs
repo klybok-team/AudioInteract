@@ -22,7 +22,7 @@ public class List : ICommand
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["vc", "v-c"];
+    public string[] Aliases { get; } = ["l"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)

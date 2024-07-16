@@ -4,9 +4,7 @@
 
 namespace AudioPlayer.Plugin.Commands;
 
-using CentralAuth;
 using CommandSystem;
-using Exiled.API.Features;
 using VoiceChat;
 
 /// <summary>
@@ -24,7 +22,7 @@ public class VoiceChannel : ICommand
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["im", "i-m"];
+    public string[] Aliases { get; } = ["vc"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
@@ -47,7 +45,7 @@ public class VoiceChannel : ICommand
             return false;
         }
 
-        if (arguments.Count < 2 || !Enum.TryParse<VoiceChatChannel>(arguments.At(1), out var voiceChannel))
+        if (arguments.Count < 2 || !Enum.TryParse<VoiceChatChannel>(arguments.At(1), out VoiceChatChannel voiceChannel))
         {
             response = "Enter voice channel of bot. There currently:"
                 + $"\n{VoiceChatChannel.Proximity}"

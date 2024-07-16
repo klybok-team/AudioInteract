@@ -5,17 +5,13 @@
 namespace AudioPlayer.API.Patches;
 
 using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using Exiled.API.Features;
 using Exiled.API.Features.Pools;
 using HarmonyLib;
 using RemoteAdmin.Communication;
-using UnityEngine;
 using static HarmonyLib.AccessTools;
-using static HarmonyLib.Code;
-using StringBuilderPool = NorthwoodLib.Pools.StringBuilderPool;
 
 /// <summary>
 /// Show NPC in remote admin panel.
@@ -31,8 +27,8 @@ public static class RAPlayerListShowNPC
     {
         List<CodeInstruction> newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
 
-    // please add index
-    /* 0x0003169C 2D0A IL_0084: brtrue.s IL_0090 Transfers control to a target instruction (short form) if value is true, not null, or non-zero. */
+        // please add index
+        /* 0x0003169C 2D0A IL_0084: brtrue.s IL_0090 Transfers control to a target instruction (short form) if value is true, not null, or non-zero. */
 
         newInstructions.InsertRange(
             84,

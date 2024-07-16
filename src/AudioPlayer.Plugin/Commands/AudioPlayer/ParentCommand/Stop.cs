@@ -1,4 +1,4 @@
-﻿// <copyright file="Volume.cs" company="Klybok Team">
+﻿// <copyright file="Stop.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
@@ -7,21 +7,21 @@ namespace AudioPlayer.Plugin.Commands;
 using CommandSystem;
 
 /// <summary>
-/// Gets or sets volume for bot.
+/// Stop music.
 /// </summary>
-public class Volume : ICommand
+public class Stop : ICommand
 {
     /// <inheritdoc/>
-    public string Command { get; } = "volume";
+    public string Command { get; } = "stop";
 
     /// <inheritdoc/>
-    public string Description { get; } = "Gets or sets bot instance mode.";
+    public string Description { get; } = "Stop playing music.";
 
     /// <inheritdoc/>
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = ["v"];
+    public string[] Aliases { get; } = ["s"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
@@ -44,21 +44,9 @@ public class Volume : ICommand
             return false;
         }
 
-        if (arguments.Count < 2)
-        {
-            response = "Enter volume.";
-            return false;
-        }
+        info.MusicInstance.Stop();
 
-        if (!int.TryParse(arguments.At(1), out int value))
-        {
-            response = "Enter volume.";
-            return false;
-        }
-
-        info.MusicInstance.Volume = value;
-
-        response = $"Setted bot volume to {value}.";
+        response = $"Successfully stoped playing music.";
         return true;
     }
 }

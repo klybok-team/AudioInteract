@@ -35,7 +35,12 @@ internal class AudioPlayerParent : ParentCommand
     /// <inheritdoc/>
     public override void LoadGeneratedCommands()
     {
-        // RegisterCommand(new MTF());
+        this.RegisterCommand(new Add());
+        this.RegisterCommand(new InstanceMode());
+        this.RegisterCommand(new List());
+        this.RegisterCommand(new Remove());
+        this.RegisterCommand(new VoiceChannel());
+        this.RegisterCommand(new Volume());
     }
 
     /// <inheritdoc/>
