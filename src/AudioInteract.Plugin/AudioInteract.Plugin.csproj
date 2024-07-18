@@ -21,8 +21,9 @@
 	<AdditionalFiles Include="../../stylecop.json" />
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
   </ItemGroup>
+	
   <ItemGroup>
-    <ProjectReference Include="..\AudioPlayer.API\AudioPlayer.API.csproj" />
+    <ProjectReference Include="..\AudioInteract.API\AudioInteract.API.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mirror">
