@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioPlayer.Plugin", "src\AudioPlayer.Plugin\AudioPlayer.Plugin.csproj", "{FBEC7FBB-CC87-42B1-B331-384F7A78EC62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioInteract.Plugin", "src\AudioInteract.Plugin\AudioInteract.Plugin.csproj", "{FBEC7FBB-CC87-42B1-B331-384F7A78EC62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioPlayer.API", "src\AudioPlayer.API\AudioPlayer.API.csproj", "{25B64F7B-8C0C-4811-AB40-D5FC4133BF3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioInteract.API", "src\AudioInteract.API\AudioInteract.API.csproj", "{25B64F7B-8C0C-4811-AB40-D5FC4133BF3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
