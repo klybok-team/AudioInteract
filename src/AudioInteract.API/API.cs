@@ -142,6 +142,45 @@ public static class API
     }
 
     /// <summary>
+    /// Creates new NPC.
+    /// </summary>
+    /// <param name="name">Name setted to NPC.</param>
+    /// <param name="role">Role setted to NPC.</param>
+    /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
+    /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
+    /// <returns>Returns Npc.</returns>
+    public static Npc CreateDefaultNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
+    {
+        Npc npc = Npc.Spawn(name, role, id, userID);
+
+        try
+        {
+            if (userID == PlayerAuthenticationManager.DedicatedId)
+            {
+                npc.ReferenceHub.authManager.SyncedUserId = userID;
+                try
+                {
+                    npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
+                }
+                catch (Exception e)
+                {
+                    Log.Debug($"Ignore: {e}");
+                }
+            }
+            else
+            {
+                npc.ReferenceHub.authManager.UserId = userID == string.Empty ? $"Dummy@localhost" : userID;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Debug($"Ignore: {e}");
+        }
+
+        return npc;
+    }
+
+    /// <summary>
     /// Create settings for NPC.
     /// </summary>
     /// <param name="npc">NPC to set settings.</param>
