@@ -1,6 +1,6 @@
 Easy to interact API with music and plugin.
 
-There some sort of docs, feel free to task or suggestions -> swdmeow (discord tag)
+There some sort of docs, feel free to ask or suggestions -> swdmeow (discord tag)
 
 Also, there README.md file in every project,
 
