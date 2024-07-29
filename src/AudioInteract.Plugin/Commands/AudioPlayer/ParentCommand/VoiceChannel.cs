@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Plugin.Commands;
+namespace AudioInteract.Plugin.Commands;
 
 using CommandSystem;
 using VoiceChat;

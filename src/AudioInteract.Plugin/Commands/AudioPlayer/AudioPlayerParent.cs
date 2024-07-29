@@ -2,11 +2,11 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Plugin.Commands;
+namespace AudioInteract.Plugin.Commands;
 
 using CommandSystem;
 using Exiled.API.Features;
-using global::AudioPlayer.Features;
+using global::AudioInteract.Features;
 
 /// <summary/>
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
@@ -27,7 +27,7 @@ internal class AudioPlayerParent : ParentCommand
     public override string Command { get; } = "audioplayer";
 
     /// <summary/>
-    public override string Description { get; } = "Command to manage AudioPlayer. Enter for more information.";
+    public override string Description { get; } = "Command to manage AudioInteract. Enter for more information.";
 
     /// <inheritdoc/>
     public override string[] Aliases { get; } = ["a-p"];

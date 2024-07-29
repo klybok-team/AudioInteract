@@ -2,17 +2,17 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Plugin;
+namespace AudioInteract.Plugin;
 
 // НА 5 ЛАЙКОВ ДОБАВЛЯЮ НОВЫЕ ИВЕНТЫ ДЛЯ АЙПИ
 // СТАВЬТЕ ЛАЙК И МЕРЖИТЕ СВОЙ ПУЛЛ РЕКВЕСТ - 1 лайк
-using AudioPlayerAPI = AudioPlayer.Features.API;
+using AudioPlayerAPI = AudioInteract.Features.API;
 
 /// <inheritdoc/>
 public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
 {
     /// <summary/>
-    public const string HarmonyID = $"AudioPlayer - Klybok Team";
+    public const string HarmonyID = $"AudioInteract - Klybok Team";
 
     /// <summary>
     /// Gets plugin instance.
@@ -20,7 +20,7 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     public static PluginInstance? Instance { get; private set; }
 
     /// <inheritdoc/>
-    public override string Name => "AudioPlayer";
+    public override string Name => "AudioInteract";
 
     /// <inheritdoc/>
     public override string Author => "Klybok Team";

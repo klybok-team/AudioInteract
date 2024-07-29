@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Features;
+namespace AudioInteract.Features;
 
 using System.ComponentModel;
 using Exiled.API.Enums;
@@ -82,7 +82,7 @@ public class AudioFile
     /// <summary>
     /// Gets or sets <see cref="VoiceChatChannel"/> of bot. Default is Intercom.
     /// </summary>
-    [Description("Get the voice channel of bot. See https://github.com/klybok-team/AudioPlayer/blob/main/src/AudioPlayer.Plugin/README.md for more info.")]
+    [Description("Get the voice channel of bot. See https://github.com/klybok-team/AudioInteract/blob/main/src/AudioInteract.Plugin/README.md for more info.")]
     public VoiceChatChannel VoiceChannel { get; set; } = VoiceChatChannel.Intercom;
 
     /// <summary>

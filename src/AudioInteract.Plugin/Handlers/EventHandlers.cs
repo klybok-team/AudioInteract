@@ -2,10 +2,10 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Plugin.Handlers;
+namespace AudioInteract.Plugin.Handlers;
 
-using AudioPlayer.Features;
-using AudioAPI = AudioPlayer.Features.API;
+using AudioInteract.Features;
+using AudioAPI = AudioInteract.Features.API;
 using ServerEvent = Exiled.Events.Handlers.Server;
 
 /// <summary/>

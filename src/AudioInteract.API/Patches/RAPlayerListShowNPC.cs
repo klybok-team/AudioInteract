@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.API.Patches;
+namespace AudioInteract.API.Patches;
 
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -54,7 +54,7 @@ public static class RAPlayerListShowNPC
     {
         try
         {
-            foreach (Features.MusicInstance musicInstance in AudioPlayer.Features.API.MusicInstance)
+            foreach (Features.MusicInstance musicInstance in AudioInteract.Features.API.MusicInstance)
             {
                 if (musicInstance.Npc.ReferenceHub.Mode != CentralAuth.ClientInstanceMode.DedicatedServer)
                 {

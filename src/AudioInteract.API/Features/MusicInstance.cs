@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Features;
+namespace AudioInteract.Features;
 
 using System.Linq;
 using Exiled.API.Enums;

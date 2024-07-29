@@ -2,10 +2,10 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Plugin.Configs;
+namespace AudioInteract.Plugin.Configs;
 
 using System.ComponentModel;
-using AudioPlayer.Features;
+using AudioInteract.Features;
 using Exiled.API.Enums;
 using Exiled.API.Interfaces;
 using PlayerRoles;

@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Features;
+namespace AudioInteract.Features;
 
 using System.Reflection;
 using CentralAuth;
@@ -20,7 +20,7 @@ public static class API
     /// <summary>
     /// Gets harmony ID.
     /// </summary>
-    public const string HarmonyID = "Klybok.Team - AudioPlayer.API";
+    public const string HarmonyID = "Klybok.Team - AudioInteract.API";
 
     /// <summary>
     /// Harmony main class.

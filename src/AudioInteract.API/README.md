@@ -1,1 +1,1 @@
-See example at AudioPlayer.Plugin.
+See example at AudioInteract.Plugin.

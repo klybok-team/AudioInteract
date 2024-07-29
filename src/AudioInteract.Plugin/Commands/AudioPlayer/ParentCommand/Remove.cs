@@ -2,9 +2,9 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioPlayer.Plugin.Commands;
+namespace AudioInteract.Plugin.Commands;
 
-using AudioPlayer.Features;
+using AudioInteract.Features;
 using CommandSystem;
 
 /// <summary>
