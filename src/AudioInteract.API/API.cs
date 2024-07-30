@@ -8,6 +8,7 @@ using System.Reflection;
 using CentralAuth;
 using Exiled.API.Features;
 using HarmonyLib;
+using NVorbis;
 using NVorbis.Contracts;
 using PlayerRoles;
 using SCPSLAudioApi;
@@ -26,11 +27,17 @@ public static class API
     /// Harmony main class.
     /// </summary>
     private static Harmony? harmony;
+    private static bool isEventsRegistered = false;
 
     static API()
     {
         Startup.SetupDependencies();
     }
+
+    /// <summary>
+    /// Gets a value indicating whether events registered or not.
+    /// </summary>
+    public static bool IsEventsRegistered { get => isEventsRegistered; internal set => isEventsRegistered = value; }
 
     /// <summary>
     /// Gets settings of NPC.
@@ -87,7 +94,7 @@ public static class API
     /// <returns><see cref="ITagData"/>.</returns>
     public static ITagData GetFileTags(string filePath)
     {
-        return new NVorbis.VorbisReader(filePath).Tags;
+        return new VorbisReader(filePath).Tags;
     }
 
     /// <summary>
@@ -97,7 +104,7 @@ public static class API
     /// <returns><see cref="ITagData"/>.</returns>
     public static ITagData GetFileTags(AudioFile audioFile)
     {
-        return new NVorbis.VorbisReader(audioFile.FilePath).Tags;
+        return new VorbisReader(audioFile.FilePath).Tags;
     }
 
     /// <summary>
@@ -111,6 +118,8 @@ public static class API
     public static MusicInstance CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
         Npc npc = Npc.Spawn(name, role, id, userID);
+
+        npc.RemoteAdminPermissions = PlayerPermissions.AFKImmunity;
 
         try
         {
@@ -152,6 +161,8 @@ public static class API
     public static Npc CreateDefaultNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
         Npc npc = Npc.Spawn(name, role, id, userID);
+
+        npc.RemoteAdminPermissions = PlayerPermissions.AFKImmunity;
 
         try
         {

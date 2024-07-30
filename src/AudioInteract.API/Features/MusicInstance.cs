@@ -5,8 +5,11 @@
 namespace AudioInteract.Features;
 
 using System.Linq;
+using System.Runtime.InteropServices;
+using AudioInteract.API.Events.EventArgs;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
@@ -29,8 +32,34 @@ public class MusicInstance
         this.Npc = linknpc;
 
         this.AudioPlayerBase = AudioPlayerBase.Get(linknpc.ReferenceHub);
-    }
 
+        if (!API.IsEventsRegistered)
+        {
+            AudioPlayerBase.OnTrackSelected += (AudioPlayerBase playerBase, bool directPlay, int queuePos, ref string track) =>
+            {
+                TrackSelectedEventArgs ev = new(playerBase, track, directPlay, queuePos);
+
+                Events.Track.OnTrackSelected(ev);
+            };
+
+            AudioPlayerBase.OnTrackLoaded += (AudioPlayerBase playerBase, bool directPlay, int queuePos, string track) =>
+            {
+                TrackLoadedEventArgs ev = new(playerBase, track, directPlay, queuePos);
+
+                Events.Track.OnTrackLoaded(ev);
+            };
+
+            AudioPlayerBase.OnFinishedTrack += (AudioPlayerBase playerBase, string track, bool directPlay, ref int nextQueuePos) =>
+            {
+                TrackFinishedEventArgs ev = new(playerBase, track, directPlay, nextQueuePos);
+
+                Events.Track.OnTrackFinished(ev);
+            };
+
+            API.IsEventsRegistered = true;
+        }
+    }
+    
     /// <summary>
     /// Gets NPC linked to class.
     /// </summary>
