@@ -59,7 +59,7 @@ public class MusicInstance
             API.IsEventsRegistered = true;
         }
     }
-    
+
     /// <summary>
     /// Gets NPC linked to class.
     /// </summary>
