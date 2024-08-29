@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TargetFramework>net4.8</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>default</LangVersion>
+	<DebugType>embedded</DebugType>
 	<PlatformTarget>x64</PlatformTarget>
 	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -17,7 +18,7 @@
 	
   <ItemGroup>
     <PackageReference Include="NVorbis" Version="0.10.5" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" IncludeAssets="All" PrivateAssets="All" />
 	<AdditionalFiles Include="../../stylecop.json" />
   </ItemGroup>
   <ItemGroup>

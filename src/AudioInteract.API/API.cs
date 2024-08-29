@@ -254,7 +254,7 @@ public static class API
     /// <returns>Indicates NPC is successfuly destroyed or not.</returns>
     public static bool DestroyNPC(MusicInstance musicInstance)
     {
-        if (musicInstance.Npc == null)
+        if (musicInstance == null || musicInstance.Npc == null)
         {
             return false;
         }
