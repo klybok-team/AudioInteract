@@ -7,7 +7,6 @@
 namespace AudioInteract.API.Events.EventArgs;
 
 using AudioInteract.Features;
-using Exiled.API.Features.Pools;
 using SCPSLAudioApi.AudioCore;
 
 /// <summary>

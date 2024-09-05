@@ -4,7 +4,6 @@
 
 namespace AudioInteract.Plugin.Commands;
 
-using AudioInteract.Features;
 using CommandSystem;
 
 /// <summary>

@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioInteract.Features;
+namespace AudioInteract.API.Features;
 
 using System.Reflection;
 using CentralAuth;
@@ -16,7 +16,7 @@ using SCPSLAudioApi;
 /// <summary>
 /// Main API class.
 /// </summary>
-public static class API
+public static class MusicAPI
 {
     /// <summary>
     /// Gets harmony ID.
@@ -239,7 +239,7 @@ public static class API
 
             return true;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex);
 
@@ -269,7 +269,7 @@ public static class API
 
             return true;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Log.Error(ex);
 

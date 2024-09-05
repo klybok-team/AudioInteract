@@ -5,11 +5,10 @@
 namespace AudioInteract.Features;
 
 using System.Linq;
-using System.Runtime.InteropServices;
 using AudioInteract.API.Events.EventArgs;
+using AudioInteract.API.Features;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
@@ -33,7 +32,7 @@ public class MusicInstance
 
         this.AudioPlayerBase = AudioPlayerBase.Get(linknpc.ReferenceHub);
 
-        if (!API.IsEventsRegistered)
+        if (!MusicAPI.IsEventsRegistered)
         {
             AudioPlayerBase.OnTrackSelected += (AudioPlayerBase playerBase, bool directPlay, int queuePos, ref string track) =>
             {
@@ -56,7 +55,7 @@ public class MusicInstance
                 Events.Track.OnTrackFinished(ev);
             };
 
-            API.IsEventsRegistered = true;
+            MusicAPI.IsEventsRegistered = true;
         }
     }
 
@@ -204,18 +203,19 @@ public class MusicInstance
     /// Immediately starts playing music.
     /// </summary>
     /// <param name="audioFile">Plays the <see cref="AudioFile"/>.</param>
-    /// <returns>This.</returns>
-    public MusicInstance? Play(AudioFile audioFile)
+    /// <returns>Indicates music is launched or not.</returns>
+    public bool Play(AudioFile audioFile)
     {
         if (!audioFile.IsEnabled)
         {
             Log.Warn("AudioFile is not enabled, skipping.");
+            return false;
         }
 
         if (!Extensions.CheckTrack(audioFile))
         {
-            Log.Error($"Audio File doesn't support. ({audioFile.FilePath})");
-            return null;
+            Log.Error($"Audio file extention doesn't support. ({audioFile.FilePath})");
+            return false;
         }
 
         Timing.CallDelayed(0.2f, () =>
@@ -240,7 +240,7 @@ public class MusicInstance
 
         try
         {
-            this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
+            this.AudioPlayerBase.Enqueue(audioFile.FilePath, 0);
 
             this.AudioPlayerBase.Play(0);
         }
@@ -249,12 +249,7 @@ public class MusicInstance
             Log.Error(ex);
         }
 
-        if (this.AudioPlayerBase.CurrentPlay == null)
-        {
-            this.AudioPlayerBase.Play(0);
-        }
-
-        return this;
+        return true;
     }
 
     // bro tf is this summary lol
@@ -275,9 +270,15 @@ public class MusicInstance
     /// <param name="path">Path to file.</param>
     /// <param name="voiceChannel">Voice channel to play.</param>
     /// <param name="loop">Loop track or not.</param>
-    /// <returns>This.</returns>
-    public MusicInstance Play(string path, VoiceChatChannel voiceChannel, bool loop = false)
+    /// <returns>Indicates music is launched or not.</returns>
+    public bool Play(string path, VoiceChatChannel voiceChannel, bool loop = false)
     {
+        if (!Extensions.CheckTrack(path))
+        {
+            Log.Error($"Audio file extention doesn't support. ({path})");
+            return false;
+        }
+
         this.AudioPlayerBase.BroadcastChannel = voiceChannel;
 
         this.AudioPlayerBase.Loop = loop;
@@ -289,7 +290,7 @@ public class MusicInstance
             this.AudioPlayerBase.Play(0);
         }
 
-        return this;
+        return true;
     }
 
     /// <summary>
@@ -347,5 +348,7 @@ public class MusicInstance
     public void Stop()
     {
         this.AudioPlayerBase.Stoptrack(true);
+
+        this.AudioPlayerBase.CurrentPlay = null;
     }
 }
