@@ -6,7 +6,6 @@ namespace AudioInteract.Features;
 
 using System.Linq;
 using AudioInteract.API.Events.EventArgs;
-using AudioInteract.API.Features;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using MEC;

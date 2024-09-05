@@ -1,5 +1,4 @@
-﻿// AudioPlayerBase playerBase, string track, bool directPlay, ref int nextQueuePos
-// -----------------------------------------------------------------------
+﻿// -----------------------------------------------------------------------
 // <copyright file="TrackFinishedEventArgs.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
@@ -24,7 +23,7 @@ public class TrackFinishedEventArgs
     /// <param name="nextQueuePos">Next queue played track.</param>
     public TrackFinishedEventArgs(AudioPlayerBase playerBase, string track, bool directPlay, int nextQueuePos)
     {
-        this.MusicInstance = Features.API.MusicInstance.FirstOrDefault(x => x.AudioPlayerBase == playerBase);
+        this.MusicInstance = MusicAPI.MusicInstances.FirstOrDefault(x => x.AudioPlayerBase == playerBase);
         this.Track = track;
         this.DirectPlay = directPlay;
         this.NextQueuePos = nextQueuePos;

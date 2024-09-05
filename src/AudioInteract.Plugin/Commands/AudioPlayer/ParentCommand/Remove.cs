@@ -4,6 +4,7 @@
 
 namespace AudioInteract.Plugin.Commands;
 
+using AudioInteract.Features;
 using CommandSystem;
 
 /// <summary>
@@ -44,7 +45,7 @@ public class Remove : ICommand
             return false;
         }
 
-        bool isSuccess = API.DestroyNPC(info.MusicInstance);
+        bool isSuccess = MusicAPI.DestroyNPC(info.MusicInstance);
 
         AudioPlayerParent.IDAudioFile.Remove(search_value);
 

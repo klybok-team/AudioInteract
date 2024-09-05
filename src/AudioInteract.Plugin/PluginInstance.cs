@@ -2,11 +2,12 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
+using AudioInteract.Features;
+
 namespace AudioInteract.Plugin;
 
 // НА 5 ЛАЙКОВ ДОБАВЛЯЮ НОВЫЕ ИВЕНТЫ ДЛЯ АЙПИ
 // СТАВЬТЕ ЛАЙК И МЕРЖИТЕ СВОЙ ПУЛЛ РЕКВЕСТ - 1 лайк
-using AudioPlayerAPI = AudioInteract.Features.API;
 
 /// <inheritdoc/>
 public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
@@ -36,7 +37,7 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     {
         Instance = this;
 
-        AudioPlayerAPI.RegisterPatches();
+        MusicAPI.RegisterPatches();
 
         this.EventHandlers = new();
 
@@ -48,7 +49,7 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     {
         Instance = null;
 
-        AudioPlayerAPI.UnregisterPatches();
+        MusicAPI.UnregisterPatches();
 
         this.EventHandlers = null;
 

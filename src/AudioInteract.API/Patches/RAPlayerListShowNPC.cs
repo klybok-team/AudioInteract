@@ -7,6 +7,7 @@ namespace AudioInteract.API.Patches;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
+using AudioInteract.Features;
 using Exiled.API.Features;
 using Exiled.API.Features.Pools;
 using HarmonyLib;
@@ -19,22 +20,29 @@ using static HarmonyLib.AccessTools;
 [HarmonyPatch(typeof(RaPlayerList), nameof(RaPlayerList.ReceiveData), [typeof(CommandSender), typeof(string)])]
 public static class RAPlayerListShowNPC
 {
-    /// <summary/>
+    /// <summary>
+    /// ....
+    /// </summary>
     /// <param name="instructions">.</param>
-    /// <param name="generator">..</param>
-    /// <returns>fuck docs, please fix summary for this method.</returns>
+    /// <param name="generator">..</param>`
+    /// <returns>...</returns>
+    /// don't work if patch is simply deny by prefix :(.
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
         List<CodeInstruction> newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
 
-        // please add index
-        /* 0x0003169C 2D0A IL_0084: brtrue.s IL_0090 Transfers control to a target instruction (short form) if value is true, not null, or non-zero. */
+        int offset = 0;
+
+        var index = newInstructions.FindLastIndex(x => x.opcode == OpCodes.Callvirt && x.Calls(Method(typeof(StringBuilder), nameof(StringBuilder.AppendLine)))) + offset;
 
         newInstructions.InsertRange(
-            84,
+            index,
             new CodeInstruction[]
             {
+                // loads stringbuilder in stack
                 new CodeInstruction(OpCodes.Ldloc_S, 7),
+
+                // execute method (idk how to work with foreach in transpiler)
                 new CodeInstruction(OpCodes.Call, Method(typeof(RAPlayerListShowNPC), nameof(AddNPC))),
             });
 
@@ -54,11 +62,11 @@ public static class RAPlayerListShowNPC
     {
         try
         {
-            foreach (Features.MusicInstance musicInstance in AudioInteract.Features.API.MusicInstance)
+            foreach (MusicInstance musicInstance in MusicAPI.MusicInstances)
             {
                 if (musicInstance.Npc.ReferenceHub.Mode != CentralAuth.ClientInstanceMode.DedicatedServer)
                 {
-                    // если какой-либо другой мод - видно в RA и списке.
+                    // if any other mode, there already displayed.
                     continue;
                 }
 

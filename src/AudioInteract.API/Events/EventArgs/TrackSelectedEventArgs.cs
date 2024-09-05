@@ -23,7 +23,7 @@ public class TrackSelectedEventArgs
     /// <param name="queuePos">Next queue played track.</param>
     public TrackSelectedEventArgs(AudioPlayerBase playerBase, string track, bool directPlay, int queuePos)
     {
-        this.MusicInstance = Features.API.MusicInstance.FirstOrDefault(x => x.AudioPlayerBase == playerBase);
+        this.MusicInstance = MusicAPI.MusicInstances.FirstOrDefault(x => x.AudioPlayerBase == playerBase);
         this.Track = track;
         this.DirectPlay = directPlay;
         this.QueuePos = queuePos;

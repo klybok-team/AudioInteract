@@ -2,7 +2,7 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-namespace AudioInteract.API.Features;
+namespace AudioInteract.Features;
 
 using System.Reflection;
 using AudioInteract.Features;
@@ -43,7 +43,7 @@ public static class MusicAPI
     /// <summary>
     /// Gets settings of NPC.
     /// </summary>
-    public static List<MusicInstance> MusicInstance { get; private set; } = new();
+    public static List<MusicInstance> MusicInstances { get; private set; } = new();
 
     private static List<Assembly> UsingAssemblys { get; set; } = new();
 
@@ -146,9 +146,9 @@ public static class MusicAPI
             Log.Debug($"Ignore: {e}");
         }
 
-        MusicInstance.Add(new(npc));
+        MusicInstances.Add(new(npc));
 
-        return MusicInstance.FirstOrDefault(x => x.Npc == npc);
+        return MusicInstances.FirstOrDefault(x => x.Npc == npc);
     }
 
     /// <summary>
@@ -204,14 +204,14 @@ public static class MusicAPI
             return null;
         }
 
-        if (MusicInstance.FirstOrDefault(x => x.Npc == npc) == null)
+        if (MusicInstances.FirstOrDefault(x => x.Npc == npc) == null)
         {
             return null;
         }
 
-        MusicInstance.Add(new(npc));
+        MusicInstances.Add(new(npc));
 
-        return MusicInstance.FirstOrDefault(x => x.Npc == npc);
+        return MusicInstances.FirstOrDefault(x => x.Npc == npc);
     }
 
     /// <summary>
@@ -226,12 +226,12 @@ public static class MusicAPI
             return false;
         }
 
-        MusicInstance musicInstance = MusicInstance.FirstOrDefault(x => x.Npc == npc);
+        MusicInstance musicInstance = MusicInstances.FirstOrDefault(x => x.Npc == npc);
         if (musicInstance != null)
         {
             musicInstance.AudioPlayerBase?.OnDestroy();
 
-            MusicInstance.Remove(musicInstance);
+            MusicInstances.Remove(musicInstance);
         }
 
         try
@@ -262,7 +262,7 @@ public static class MusicAPI
 
         musicInstance.AudioPlayerBase?.OnDestroy();
 
-        MusicInstance.Remove(musicInstance);
+        MusicInstances.Remove(musicInstance);
 
         try
         {

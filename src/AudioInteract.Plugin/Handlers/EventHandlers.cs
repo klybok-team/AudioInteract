@@ -5,7 +5,6 @@
 namespace AudioInteract.Plugin.Handlers;
 
 using AudioInteract.Features;
-using AudioAPI = AudioInteract.Features.API;
 using ServerEvent = Exiled.Events.Handlers.Server;
 
 /// <summary/>
@@ -51,7 +50,7 @@ public class EventHandlers
     {
         foreach (AudioFile audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
         {
-            MusicInstance? musicInstance = AudioAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
+            MusicInstance? musicInstance = MusicAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
 
             if (musicInstance == null)
             {
@@ -73,7 +72,7 @@ public class EventHandlers
     {
         foreach (MusicInstance musicInstance in LobbyPlayingNPC)
         {
-            AudioAPI.DestroyNPC(musicInstance);
+            MusicAPI.DestroyNPC(musicInstance);
         }
     }
 }

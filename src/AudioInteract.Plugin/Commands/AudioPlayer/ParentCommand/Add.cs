@@ -4,6 +4,7 @@
 
 namespace AudioInteract.Plugin.Commands;
 
+using AudioInteract.Features;
 using CommandSystem;
 
 /// <summary>
@@ -28,7 +29,7 @@ public class Add : ICommand
     {
         int botID = AudioPlayerParent.IDAudioFile.Count;
 
-        AudioPlayerParent.IDAudioFile.Add(botID, new(API.CreateNPC(arguments.Count > 0 ? string.Join(" ", arguments) : "Bot")));
+        AudioPlayerParent.IDAudioFile.Add(botID, new(MusicAPI.CreateNPC(arguments.Count > 0 ? string.Join(" ", arguments) : "Bot")));
 
         response = $"Created new bot with plugin ID: {botID} and in-game ID: {AudioPlayerParent.IDAudioFile[botID].MusicInstance.Npc.Id}. Bot automatically hidden in list, but display in RA. InstanceMode mod command to unhide.";
         return true;
