@@ -1,10 +1,11 @@
-﻿// <copyright file="API.cs" company="Klybok Team">
+﻿// <copyright file="MusicAPI.cs" company="Klybok Team">
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
 namespace AudioInteract.API.Features;
 
 using System.Reflection;
+using AudioInteract.Features;
 using CentralAuth;
 using Exiled.API.Features;
 using HarmonyLib;
@@ -29,7 +30,7 @@ public static class MusicAPI
     private static Harmony? harmony;
     private static bool isEventsRegistered = false;
 
-    static API()
+    static MusicAPI()
     {
         Startup.SetupDependencies();
     }
