@@ -144,7 +144,7 @@ public class MusicInstance
     /// <summary>
     /// Gets a value indicating whether track is finished or not.
     /// </summary>
-    public bool IsFinished => this.AudioPlayerBase.IsFinished;
+    public bool IsFinished => this.AudioPlayerBase.IsFinished || !this.AudioPlayerBase.VorbisReader.Streams.Any();
 
     /// <summary>
     /// Gets or sets logs type <see cref="Features.LoggedType"/>.
@@ -242,6 +242,8 @@ public class MusicInstance
             this.AudioPlayerBase.Enqueue(audioFile.FilePath, 0);
 
             this.AudioPlayerBase.Play(0);
+
+            this.AudioPlayerBase.IsFinished = false;
         }
         catch (System.Exception ex)
         {
@@ -270,7 +272,7 @@ public class MusicInstance
     /// <param name="voiceChannel">Voice channel to play.</param>
     /// <param name="loop">Loop track or not.</param>
     /// <returns>Indicates music is launched or not.</returns>
-    public bool Play(string path, VoiceChatChannel voiceChannel, bool loop = false)
+    public bool Play(string path, VoiceChatChannel voiceChannel = VoiceChatChannel.Intercom, bool loop = false)
     {
         if (!Extensions.CheckTrack(path))
         {
@@ -284,9 +286,10 @@ public class MusicInstance
 
         this.AudioPlayerBase.Enqueue(path, 0);
 
-        if (this.AudioPlayerBase.CurrentPlay == null)
+        if (this.AudioPlayerBase.CurrentPlay == null || this.AudioPlayerBase.IsFinished)
         {
             this.AudioPlayerBase.Play(0);
+            this.AudioPlayerBase.IsFinished = false;
         }
 
         return true;
@@ -301,9 +304,10 @@ public class MusicInstance
         this.AudioPlayerBase.Enqueue(audioFile.FilePath, -1);
 
         // If music not playing, starts to play.
-        if (this.AudioPlayerBase.CurrentPlay == null)
+        if (this.AudioPlayerBase.CurrentPlay == null || this.AudioPlayerBase.IsFinished)
         {
             this.AudioPlayerBase.Play(0);
+            this.AudioPlayerBase.IsFinished = false;
         }
     }
 
@@ -317,9 +321,10 @@ public class MusicInstance
         this.AudioPlayerBase.Enqueue(path, -1);
 
         // If music not playing, starts to play.
-        if (this.AudioPlayerBase.CurrentPlay == null)
+        if (this.AudioPlayerBase.CurrentPlay == null || this.AudioPlayerBase.IsFinished)
         {
             this.AudioPlayerBase.Play(0);
+            this.AudioPlayerBase.IsFinished = false;
         }
 
         return true;
@@ -333,6 +338,7 @@ public class MusicInstance
         if (this.PlayingTrack == null && this.TrackQueue.Count > 0)
         {
             this.AudioPlayerBase.Play(0);
+            this.AudioPlayerBase.IsFinished = false;
         }
     }
 
@@ -349,5 +355,6 @@ public class MusicInstance
         this.AudioPlayerBase.Stoptrack(true);
 
         this.AudioPlayerBase.CurrentPlay = null;
+        this.AudioPlayerBase.IsFinished = true;
     }
 }

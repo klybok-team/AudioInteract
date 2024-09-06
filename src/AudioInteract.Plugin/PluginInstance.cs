@@ -2,9 +2,9 @@
 // Copyright (c) Klybok Team. All rights reserved.
 // </copyright>
 
-using AudioInteract.Features;
-
 namespace AudioInteract.Plugin;
+
+using AudioInteract.Features;
 
 // НА 5 ЛАЙКОВ ДОБАВЛЯЮ НОВЫЕ ИВЕНТЫ ДЛЯ АЙПИ
 // СТАВЬТЕ ЛАЙК И МЕРЖИТЕ СВОЙ ПУЛЛ РЕКВЕСТ - 1 лайк

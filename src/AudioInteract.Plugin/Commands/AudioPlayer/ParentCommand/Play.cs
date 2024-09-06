@@ -60,10 +60,7 @@ public class Play : ICommand
             return false;
         }
 
-        // trololo
-        info.AudioFile.FilePath = path;
-
-        info.MusicInstance.Play(info.AudioFile);
+        info.MusicInstance.Play(path);
 
         response = $"Playing track at path - {path}";
         return true;

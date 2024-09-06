@@ -30,7 +30,7 @@ internal class AudioPlayerParent : ParentCommand
     public override string Description { get; } = "Command to manage AudioInteract. Enter for more information.";
 
     /// <inheritdoc/>
-    public override string[] Aliases { get; } = ["a-p"];
+    public override string[] Aliases { get; } = ["a-p", "au"];
 
     /// <inheritdoc/>
     public override void LoadGeneratedCommands()

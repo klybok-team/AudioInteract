@@ -14,7 +14,17 @@ public static class Extensions
     /// <summary>
     /// Gets path to audio file root directory. Leads to EXILED root directory (EXILED/Audio).
     /// </summary>
-    public static string FolderPath { get; } = Path.Combine(Paths.Exiled, "Audio");
+    public static string FolderPath
+    {
+        get
+        {
+            var settedPath = Path.Combine(Paths.Exiled, "Audio");
+
+            Directory.CreateDirectory(settedPath);
+
+            return settedPath;
+        }
+    }
 
     /// <summary>
     /// Checks the path for playable track.
@@ -23,11 +33,6 @@ public static class Extensions
     /// <returns>Is file exists and ready to be played.</returns>
     public static bool CheckTrack(AudioFile audioFile)
     {
-        if (!Directory.Exists(FolderPath))
-        {
-            Directory.CreateDirectory(FolderPath);
-        }
-
         if (!File.Exists(audioFile.FilePath))
         {
             return false;
@@ -48,11 +53,6 @@ public static class Extensions
     /// <returns>Is file exists and ready to be played.</returns>
     public static bool CheckTrack(string filePath)
     {
-        if (!Directory.Exists(FolderPath))
-        {
-            Directory.CreateDirectory(FolderPath);
-        }
-
         if (!File.Exists(filePath))
         {
             return false;

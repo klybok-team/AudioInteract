@@ -22,7 +22,7 @@ public class Add : ICommand
     public bool SanitizeResponse { get; } = false;
 
     /// <inheritdoc/>
-    public string[] Aliases { get; } = Array.Empty<string>();
+    public string[] Aliases { get; } = ["a"];
 
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)

@@ -114,7 +114,7 @@ public static class MusicAPI
     /// <param name="name">Name setted to NPC.</param>
     /// <param name="role">Role setted to NPC.</param>
     /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
-    /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
+    /// <param name="userID">UserID setted to NPC.</param>
     /// <returns>Returns Music Instance.</returns>
     public static MusicInstance CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
@@ -144,6 +144,12 @@ public static class MusicAPI
         catch (Exception e)
         {
             Log.Debug($"Ignore: {e}");
+        }
+
+        if (!RecyclablePlayerId.FreeIds.Contains(npc.Id) && RecyclablePlayerId._autoIncrement >= npc.Id)
+        {
+            Log.Warn($"{Assembly.GetCallingAssembly().GetName().Name} tried to spawn an NPC with a duplicate PlayerID. Using auto-incremented ID instead to avoid issues.");
+            npc.Id = new RecyclablePlayerId(true).Value;
         }
 
         MusicInstances.Add(new(npc));

@@ -50,6 +50,6 @@ public class Remove : ICommand
         AudioPlayerParent.IDAudioFile.Remove(search_value);
 
         response = isSuccess ? "Bot successfully destroyed." : "Error when destroying bot.";
-        return false;
+        return isSuccess;
     }
 }
