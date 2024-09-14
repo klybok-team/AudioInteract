@@ -8,13 +8,19 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using AudioInteract.Features;
 using CentralAuth;
+using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Components;
 using HarmonyLib;
+using MapEditorReborn.Commands.ModifyingCommands.Position;
+using MEC;
 using Mirror;
 using NVorbis;
 using NVorbis.Contracts;
 using PlayerRoles;
 using SCPSLAudioApi;
+using UnityEngine;
 
 /// <summary>
 /// Main API class.
@@ -115,12 +121,11 @@ public static class MusicAPI
     /// </summary>
     /// <param name="name">Name setted to NPC.</param>
     /// <param name="role">Role setted to NPC.</param>
-    /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
     /// <param name="userID">UserID setted to NPC.</param>
     /// <returns>Returns Music Instance.</returns>
-    public static MusicInstance CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
+    public static MusicInstance CreateNPC(string name, RoleTypeId role = RoleTypeId.None, string userID = PlayerAuthenticationManager.DedicatedId)
     {
-        Npc npc = CreateDefaultNPC(name, role, id, userID);
+        Npc npc = CreateDefaultNPC(name, role, userID);
 
         return AddSetingsToNPC(npc);
     }
@@ -130,19 +135,44 @@ public static class MusicAPI
     /// </summary>
     /// <param name="name">Name setted to NPC.</param>
     /// <param name="role">Role setted to NPC.</param>
-    /// <param name="id">ID setted to NPC. 0 - select new ID.</param>
-    /// <param name="userID">UserID setted to NPC. DO NOT CHANGE THIS IF YOU NOT WANT TO BREAK VSR. Default value hides NPC from list.</param>
+    /// <param name="userID">UserID setted to NPC. Default value hides NPC from list.</param>
     /// <returns>Returns Npc.</returns>
-    public static Npc CreateDefaultNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
+    public static Npc CreateDefaultNPC(string name, RoleTypeId role = RoleTypeId.None, string userID = PlayerAuthenticationManager.DedicatedId)
     {
-        if (!RecyclablePlayerId.FreeIds.Contains(id) && RecyclablePlayerId._autoIncrement >= id)
+        GameObject gameObject = Object.Instantiate(NetworkManager.singleton.playerPrefab);
+        Npc npc = new Npc(gameObject)
         {
-            Log.Warn($"{Assembly.GetCallingAssembly().GetName().Name} tried to spawn an NPC with a duplicate PlayerID. Using auto-incremented ID instead to avoid issues.");
-
-            id = RecyclablePlayerId._autoIncrement++;
+            IsNPC = true,
+        };
+        try
+        {
+            npc.ReferenceHub.roleManager.InitializeNewRole(RoleTypeId.None, RoleChangeReason.None);
+        }
+        catch (Exception arg)
+        {
+            Log.Debug($"Ignore: {arg}");
         }
 
-        Npc npc = Npc.Spawn(name, role, id, userID);
+        var fakeConnection = new FakeConnection(int.MaxValue);
+
+        NetworkServer.AddPlayerForConnection(fakeConnection, gameObject);
+
+        try
+        {
+            npc.ReferenceHub.authManager.UserId = string.IsNullOrEmpty(userID) ? "Dummy@localhost" : userID;
+        }
+        catch (Exception arg2)
+        {
+            Log.Debug($"Ignore: {arg2}");
+        }
+
+        npc.ReferenceHub.nicknameSync.Network_myNickSync = name;
+        Player.Dictionary.Add(gameObject, npc);
+
+        Timing.CallDelayed(0.3f, () =>
+        {
+            npc.Role.Set(role);
+        });
 
         npc.RemoteAdminPermissions = PlayerPermissions.AFKImmunity;
 
