@@ -5,10 +5,12 @@
 namespace AudioInteract.Features;
 
 using System.Reflection;
+using System.Runtime.InteropServices;
 using AudioInteract.Features;
 using CentralAuth;
 using Exiled.API.Features;
 using HarmonyLib;
+using Mirror;
 using NVorbis;
 using NVorbis.Contracts;
 using PlayerRoles;
@@ -118,43 +120,9 @@ public static class MusicAPI
     /// <returns>Returns Music Instance.</returns>
     public static MusicInstance CreateNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
-        if (!RecyclablePlayerId.FreeIds.Contains(id) && RecyclablePlayerId._autoIncrement >= id)
-        {
-            Log.Warn($"{Assembly.GetCallingAssembly().GetName().Name} tried to spawn an NPC with a duplicate PlayerID. Using auto-incremented ID instead to avoid issues.");
-            id = new RecyclablePlayerId(true).Value;
-        }
+        Npc npc = CreateDefaultNPC(name, role, id, userID);
 
-        Npc npc = Npc.Spawn(name, role, id, userID);
-
-        npc.RemoteAdminPermissions = PlayerPermissions.AFKImmunity;
-
-        try
-        {
-            if (userID == PlayerAuthenticationManager.DedicatedId)
-            {
-                npc.ReferenceHub.authManager.SyncedUserId = userID;
-                try
-                {
-                    npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
-                }
-                catch (Exception e)
-                {
-                    Log.Debug($"Ignore: {e}");
-                }
-            }
-            else
-            {
-                npc.ReferenceHub.authManager.UserId = userID == string.Empty ? $"Dummy@localhost" : userID;
-            }
-        }
-        catch (Exception e)
-        {
-            Log.Debug($"Ignore: {e}");
-        }
-
-        MusicInstances.Add(new(npc));
-
-        return MusicInstances.FirstOrDefault(x => x.Npc == npc);
+        return AddSetingsToNPC(npc);
     }
 
     /// <summary>
@@ -167,6 +135,13 @@ public static class MusicAPI
     /// <returns>Returns Npc.</returns>
     public static Npc CreateDefaultNPC(string name, RoleTypeId role = RoleTypeId.None, int id = 0, string userID = PlayerAuthenticationManager.DedicatedId)
     {
+        if (!RecyclablePlayerId.FreeIds.Contains(id) && RecyclablePlayerId._autoIncrement >= id)
+        {
+            Log.Warn($"{Assembly.GetCallingAssembly().GetName().Name} tried to spawn an NPC with a duplicate PlayerID. Using auto-incremented ID instead to avoid issues.");
+
+            id = RecyclablePlayerId._autoIncrement++;
+        }
+
         Npc npc = Npc.Spawn(name, role, id, userID);
 
         npc.RemoteAdminPermissions = PlayerPermissions.AFKImmunity;
@@ -203,18 +178,8 @@ public static class MusicAPI
     /// </summary>
     /// <param name="npc">NPC to set settings.</param>
     /// <returns>Indicates settings is successfuly created or not.</returns>
-    public static MusicInstance? AddSetingsToNPC(Npc npc)
+    public static MusicInstance AddSetingsToNPC(Npc npc)
     {
-        if (npc == null)
-        {
-            return null;
-        }
-
-        if (MusicInstances.FirstOrDefault(x => x.Npc == npc) == null)
-        {
-            return null;
-        }
-
         MusicInstances.Add(new(npc));
 
         return MusicInstances.FirstOrDefault(x => x.Npc == npc);
@@ -242,7 +207,8 @@ public static class MusicAPI
 
         try
         {
-            npc.Destroy();
+            // lol
+            npc.Disconnect();
 
             return true;
         }
