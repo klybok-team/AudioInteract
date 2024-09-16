@@ -55,10 +55,11 @@ public class MusicInstance
                 Events.Track.OnTrackFinished(ev);
             };
 
+            Track.TrackFinished += this.OnFinished_ClearIfClearOnFinish;
+            Exiled.Events.Handlers.Server.RestartingRound += this.OnRoundRestart_ClearIDs;
+
             MusicAPI.IsEventsRegistered = true;
         }
-
-        Track.TrackFinished += this.OnFinished_ClearIfClearOnFinish;
     }
 
     /// <summary>
@@ -198,6 +199,15 @@ public class MusicInstance
     {
         get => this.AudioPlayerBase.Volume;
         set => this.AudioPlayerBase.Volume = value;
+    }
+
+    /// <summary>
+    /// Clear free IDs on round restart.
+    /// </summary>
+    public void OnRoundRestart_ClearIDs()
+    {
+        RecyclablePlayerId.FreeIds.Clear();
+        RecyclablePlayerId._autoIncrement = 0;
     }
 
     /// <summary>

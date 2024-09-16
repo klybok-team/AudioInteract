@@ -5,8 +5,10 @@
 namespace AudioInteract.Plugin.Handlers;
 
 using AudioInteract.Features;
+using Exiled.Events.EventArgs.Cassie;
 using Exiled.Events.EventArgs.Server;
 using Exiled.Events.EventArgs.Warhead;
+using CassieEvent = Exiled.Events.Handlers.Cassie;
 using ServerEvent = Exiled.Events.Handlers.Server;
 using WarheadEvent = Exiled.Events.Handlers.Warhead;
 

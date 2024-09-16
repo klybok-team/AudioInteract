@@ -135,10 +135,12 @@ public static class MusicAPI
     public static Npc CreateDefaultNPC(string name, RoleTypeId role = RoleTypeId.None, string userID = PlayerAuthenticationManager.DedicatedId)
     {
         GameObject gameObject = Object.Instantiate(NetworkManager.singleton.playerPrefab);
+
         Npc npc = new Npc(gameObject)
         {
             IsNPC = true,
         };
+
         try
         {
             npc.ReferenceHub.roleManager.InitializeNewRole(RoleTypeId.None, RoleChangeReason.None);
