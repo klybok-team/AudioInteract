@@ -6,6 +6,7 @@ namespace AudioInteract.Features;
 
 using System.Linq;
 using AudioInteract.API.Events.EventArgs;
+using AudioInteract.Features.Events;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using MEC;
@@ -56,6 +57,8 @@ public class MusicInstance
 
             MusicAPI.IsEventsRegistered = true;
         }
+
+        Track.TrackFinished += this.OnFinished_ClearIfClearOnFinish;
     }
 
     /// <summary>
@@ -175,10 +178,9 @@ public class MusicInstance
     }
 
     /// <summary>
-    /// Gets a value indicating whether remove NPC on finish or not.
+    /// Gets or sets a value indicating whether remove NPC on finish or not.
     /// </summary>
-    [Obsolete("Use Stop() method.")]
-    public bool ClearOnFinish => this.AudioPlayerBase.ClearOnFinish;
+    public bool ClearOnFinish { get; set; } = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether shuffle tracks or not.
@@ -196,6 +198,26 @@ public class MusicInstance
     {
         get => this.AudioPlayerBase.Volume;
         set => this.AudioPlayerBase.Volume = value;
+    }
+
+    /// <summary>
+    /// If clear on finish, if finished clear (lmao).
+    /// </summary>
+    /// <param name="ev">Event.</param>
+    public void OnFinished_ClearIfClearOnFinish(TrackFinishedEventArgs ev)
+    {
+        if (ev.MusicInstance == null || !ev.MusicInstance.ClearOnFinish)
+        {
+            return;
+        }
+
+        Timing.CallDelayed(0.5f, () =>
+        {
+            if (ev.MusicInstance.IsFinished)
+            {
+                MusicAPI.DestroyNPC(ev.MusicInstance);
+            }
+        });
     }
 
     /// <summary>
@@ -235,7 +257,6 @@ public class MusicInstance
         this.AudioPlayerBase.BroadcastChannel = audioFile.VoiceChannel;
         this.AudioPlayerBase.Volume = audioFile.Volume;
         this.AudioPlayerBase.Loop = audioFile.IsLooped;
-        this.AudioPlayerBase.Shuffle = audioFile.Shuffle;
 
         try
         {

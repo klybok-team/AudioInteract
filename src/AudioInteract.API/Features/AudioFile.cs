@@ -25,14 +25,14 @@ public class AudioFile
     /// <param name="isLooped">Is track looped or not.</param>
     /// <param name="volume">Volume of track.</param>
     /// <param name="voicechannel">Voice channel of track.</param>
-    /// <param name="botid">Bot ID.</param>
-    public AudioFile(string filePath, bool isEnabled = true, bool isLooped = false, int volume = 75, VoiceChatChannel voicechannel = VoiceChatChannel.Intercom, int botid = -1)
+    /// <param name="botname">Bot name.</param>
+    public AudioFile(string filePath, bool isEnabled = true, bool isLooped = false, int volume = 75, VoiceChatChannel voicechannel = VoiceChatChannel.Intercom, string botname = "")
     {
         this.FilePath = filePath;
         this.IsLooped = isLooped;
         this.Volume = volume;
         this.VoiceChannel = voicechannel;
-        this.BotId = botid;
+        this.BotName = botname;
         this.IsEnabled = isEnabled;
     }
 
@@ -56,10 +56,10 @@ public class AudioFile
     public bool IsEnabled { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether shuffle tracks or not.
+    /// Gets or sets a value indicating bot name.
     /// </summary>
-    [Description("Indicates shuffle tracks or not.")]
-    public bool Shuffle { get; set; } = false;
+    [Description("Sets a value indicating bot name.")]
+    public string BotName { get; set; } = "Bot";
 
     /// <summary>
     /// Gets or sets path to audio file. Default leads to EXILED root directory (EXILED/Audio/track.ogg).
@@ -108,10 +108,4 @@ public class AudioFile
     /// </summary>
     [Description("Gets or sets current bot LOCAL room position. Leave x, y, z zero or null to not spawn, local-room-position command to get.")]
     public Vector3 LocalRoomPostion { get; set; } = new(0, 0, 0);
-
-    /// <summary>
-    /// Gets or sets ID of bot. If ID is negative, API will create new bot with random ID, if not - try to create with selected ID..
-    /// </summary>
-    [Description("Set's ID of bot. If ID is negative, API will create new bot with random ID, if not - try to create with selected ID..")]
-    public int BotId { get; set; } = -1;
 }

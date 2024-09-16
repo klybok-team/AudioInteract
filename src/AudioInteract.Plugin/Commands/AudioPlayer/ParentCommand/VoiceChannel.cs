@@ -19,9 +19,6 @@ public class VoiceChannel : ICommand
     public string Description { get; } = "Gets or sets bot voice channel.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["vc"];
 
     /// <inheritdoc/>

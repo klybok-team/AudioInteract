@@ -17,17 +17,12 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <PackageReference Include="EXILEDOFFICIAL" Version="8.11.0" />
     <PackageReference Include="NVorbis" Version="0.10.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" IncludeAssets="All" PrivateAssets="All" />
 	<AdditionalFiles Include="../../stylecop.json" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\CompileFiles\Assembly-CSharp-Publicized.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.CustomItems">
-      <HintPath>..\..\..\CompileFiles\Exiled.CustomItems.dll</HintPath>
-    </Reference>
     <Reference Include="MapEditorReborn">
       <HintPath>..\..\..\CompileFilesNotDelte\MapEditorReborn (2).dll</HintPath>
     </Reference>
@@ -47,11 +42,7 @@
     <Reference Include="UnityEngine.PhysicsModule" HintPath="$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll" />
     <Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll" />
     <Reference Include="UnityEngine.AudioModule" HintPath="$(EXILED_REFERENCES)\UnityEngine.AudioModule.dll" />
-    <Reference Include="Exiled.Permissions" HintPath="$(EXILED_REFERENCES)\Exiled.Permissions.dll" />
     <Reference Include="CommandSystem.Core" HintPath="$(EXILED_REFERENCES)\CommandSystem.Core.dll" />
-    <Reference Include="Exiled.Loader" HintPath="$(EXILED_REFERENCES)\Exiled.Loader.dll" />
-    <Reference Include="Exiled.Events" HintPath="$(EXILED_REFERENCES)\Exiled.Events.dll" />
-    <Reference Include="Exiled.API" HintPath="$(EXILED_REFERENCES)\Exiled.API.dll" />
     <Reference Include="NorthwoodLib" HintPath="$(EXILED_REFERENCES)\NorthwoodLib.dll" />
     <Reference Include="YamlDotNet" HintPath="$(EXILED_REFERENCES)\YamlDotNet.dll" />
     <Reference Include="Mono.Posix" HintPath="$(EXILED_REFERENCES)\Mono.Posix.dll" />

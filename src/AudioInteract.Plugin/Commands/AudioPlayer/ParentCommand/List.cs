@@ -19,9 +19,6 @@ public class List : ICommand
     public string Description { get; } = "Get all currently existing bots.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["l"];
 
     /// <inheritdoc/>

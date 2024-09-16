@@ -18,9 +18,6 @@ public class Volume : ICommand
     public string Description { get; } = "Gets or sets bot instance mode.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["v"];
 
     /// <inheritdoc/>

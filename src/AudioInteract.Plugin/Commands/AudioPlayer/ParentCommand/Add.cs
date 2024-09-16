@@ -19,9 +19,6 @@ public class Add : ICommand
     public string Description { get; } = "Creates new bot. Enter anything to set name of bot.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["a"];
 
     /// <inheritdoc/>

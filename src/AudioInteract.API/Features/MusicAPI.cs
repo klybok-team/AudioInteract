@@ -5,15 +5,10 @@
 namespace AudioInteract.Features;
 
 using System.Reflection;
-using System.Runtime.InteropServices;
-using AudioInteract.Features;
 using CentralAuth;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Components;
 using HarmonyLib;
-using MapEditorReborn.Commands.ModifyingCommands.Position;
 using MEC;
 using Mirror;
 using NVorbis;
@@ -153,7 +148,7 @@ public static class MusicAPI
             Log.Debug($"Ignore: {arg}");
         }
 
-        var fakeConnection = new FakeConnection(int.MaxValue);
+        FakeConnection fakeConnection = new FakeConnection(int.MaxValue);
 
         NetworkServer.AddPlayerForConnection(fakeConnection, gameObject);
 

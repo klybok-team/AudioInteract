@@ -24,7 +24,7 @@ public static class FixNpcIntanceMode
     public static bool Prefix(PlayerAuthenticationManager __instance, ClientInstanceMode value)
 #pragma warning restore SA1313 // Parameter names should begin with lower-case letter
     {
-        if (!Npc.TryGet(__instance._hub, out var npc) || !npc.IsNPC)
+        if (!Npc.TryGet(__instance._hub, out Player? npc) || !npc.IsNPC)
         {
             return true;
         }

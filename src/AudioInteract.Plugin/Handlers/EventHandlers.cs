@@ -5,7 +5,10 @@
 namespace AudioInteract.Plugin.Handlers;
 
 using AudioInteract.Features;
+using Exiled.Events.EventArgs.Server;
+using Exiled.Events.EventArgs.Warhead;
 using ServerEvent = Exiled.Events.Handlers.Server;
+using WarheadEvent = Exiled.Events.Handlers.Warhead;
 
 /// <summary/>
 public class EventHandlers
@@ -22,6 +25,11 @@ public class EventHandlers
 
         ServerEvent.WaitingForPlayers += this.OnWaitingForPlayers_EnableMusic;
         ServerEvent.RoundStarted += this.OnRoundStarted_StopMusic;
+        ServerEvent.RespawningTeam += this.OnRespawningTeam_PlayMusic;
+
+        WarheadEvent.Starting += this.OnWarheadStarted_PlayMusic;
+        WarheadEvent.Detonated += this.OnWarheadDetonated_StopMusic;
+        WarheadEvent.Stopping += this.OnWarheadStopping_StopMusic;
     }
 
     /// <summary>
@@ -36,6 +44,11 @@ public class EventHandlers
 
         ServerEvent.WaitingForPlayers -= this.OnWaitingForPlayers_EnableMusic;
         ServerEvent.RoundStarted -= this.OnRoundStarted_StopMusic;
+        ServerEvent.RespawningTeam -= this.OnRespawningTeam_PlayMusic;
+
+        WarheadEvent.Starting -= this.OnWarheadStarted_PlayMusic;
+        WarheadEvent.Detonated -= this.OnWarheadDetonated_StopMusic;
+        WarheadEvent.Stopping -= this.OnWarheadStopping_StopMusic;
     }
 
     /// <summary>
@@ -44,20 +57,51 @@ public class EventHandlers
     public static List<MusicInstance> LobbyPlayingNPC { get; private set; } = new();
 
     /// <summary>
+    /// Gets warhead NPC playing.
+    /// </summary>
+    public static MusicInstance? WarheadNPC { get; private set; } = null;
+
+    /// <summary>
+    /// Plays music after team respawn.
+    /// </summary>
+    /// <param name="ev">Event.</param>
+    public void OnRespawningTeam_PlayMusic(RespawningTeamEventArgs ev)
+    {
+        if (!ev.IsAllowed
+            || PluginInstance.Instance == null)
+        {
+            return;
+        }
+
+        PluginInstance.Instance.Config.TeamMusic.TryGetValue(ev.NextKnownTeam, out var teamAudio);
+
+        if (teamAudio == null || !teamAudio.IsEnabled)
+        {
+            return;
+        }
+
+        var npc = MusicAPI.CreateNPC(teamAudio.BotName);
+
+        npc.Play(teamAudio);
+
+        npc.ClearOnFinish = true;
+    }
+
+    /// <summary>
     /// Plays music (if exists) on waiting for players (lobby).
     /// </summary>
     public void OnWaitingForPlayers_EnableMusic()
     {
         foreach (AudioFile audioFile in PluginInstance.Instance!.Config.LobbyMusic.Where(x => x.IsEnabled))
         {
-            MusicInstance? musicInstance = MusicAPI.CreateNPC(PluginInstance.Instance!.Config.LobbyMusicNPCName);
+            MusicInstance? musicInstance = MusicAPI.CreateNPC(audioFile.BotName);
 
             if (musicInstance == null)
             {
                 continue;
             }
 
-            musicInstance.LoggedType = Features.LoggedType.Info;
+            musicInstance.LoggedType = LoggedType.Info;
 
             musicInstance.Play(audioFile);
 
@@ -74,5 +118,56 @@ public class EventHandlers
         {
             MusicAPI.DestroyNPC(musicInstance);
         }
+    }
+
+    /// <summary>
+    /// Stops warhead music on detonated event.
+    /// </summary>
+    public void OnWarheadDetonated_StopMusic() => this.Warhead_StopMusic();
+
+    /// <summary>
+    /// Stops warhead music on stopping event.
+    /// </summary>
+    /// <param name="ev">Event.</param>
+    public void OnWarheadStopping_StopMusic(StoppingEventArgs ev) => this.Warhead_StopMusic();
+
+    /// <summary>
+    /// Stops warhead music.
+    /// </summary>
+    public void Warhead_StopMusic()
+    {
+        if (WarheadNPC != null)
+        {
+            MusicAPI.DestroyNPC(WarheadNPC);
+        }
+    }
+
+    /// <summary>
+    /// Plays music (if exists) on warhead start.
+    /// </summary>
+    /// <param name="ev">Event.</param>
+    public void OnWarheadStarted_PlayMusic(StartingEventArgs ev)
+    {
+        if (!ev.IsAllowed
+            || PluginInstance.Instance == null)
+        {
+            return;
+        }
+
+        var warheadAudio = PluginInstance.Instance.Config.WarheadMusic;
+
+        if (warheadAudio == null || !warheadAudio.IsEnabled)
+        {
+            return;
+        }
+
+        if (WarheadNPC != null)
+        {
+            MusicAPI.DestroyNPC(WarheadNPC);
+        }
+
+        WarheadNPC = MusicAPI.CreateNPC(warheadAudio.BotName);
+
+        WarheadNPC.Play(warheadAudio);
     }
 }

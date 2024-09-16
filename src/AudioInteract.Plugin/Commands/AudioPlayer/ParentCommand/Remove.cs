@@ -19,9 +19,6 @@ public class Remove : ICommand
     public string Description { get; } = "Remove bot.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["r"];
 
     /// <inheritdoc/>

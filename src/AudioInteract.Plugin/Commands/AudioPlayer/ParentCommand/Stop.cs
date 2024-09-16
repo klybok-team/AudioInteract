@@ -18,9 +18,6 @@ public class Stop : ICommand
     public string Description { get; } = "Stop playing music.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["s"];
 
     /// <inheritdoc/>

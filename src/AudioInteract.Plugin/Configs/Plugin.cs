@@ -6,9 +6,9 @@ namespace AudioInteract.Plugin.Configs;
 
 using System.ComponentModel;
 using AudioInteract.Features;
-using Exiled.API.Enums;
 using Exiled.API.Interfaces;
 using PlayerRoles;
+using Respawning;
 
 /// <summary/>
 public sealed class Plugin : IConfig
@@ -22,12 +22,8 @@ public sealed class Plugin : IConfig
     public bool Debug { get; set; } = true;
 
     /// <summary/>
-    [Description("Indicates will plugin register and try to play music wi")]
+    [Description("Indicates will plugin register and try to play music or not.")]
     public bool IsEventsEnabled { get; set; } = false;
-
-    /// <summary/>
-    [Description("Name for NPC playing music in lobby.")]
-    public string LobbyMusicNPCName { get; set; } = "Lobby music";
 
     /// <summary/>
     [Description("Plays music in lobby. Remove value IsEnabled or set value to true to enable it.")]
@@ -36,17 +32,58 @@ public sealed class Plugin : IConfig
         {
             new()
             {
-                FilePath = Path.Combine(AudioFile.RawFilePath, "lobby_music.ogg"),
                 IsEnabled = false,
+                BotName = "Lobby Music",
+                FilePath = Path.Combine(AudioFile.RawFilePath, "lobby_music.ogg"),
                 IsLooped = true,
                 VoiceChannel = VoiceChat.VoiceChatChannel.Intercom,
                 Volume = 75,
-                Shuffle = false,
-                BotId = -1,
-                LocalRoomPostion = new(0, 0, 0),
-                Postion = new(0, 0, 0),
                 RoleType = RoleTypeId.Overwatch,
-                RoomType = RoomType.Unknown,
+            }
+        },
+    };
+
+    /// <summary/>
+    [Description("Plays music when warhead stared. Remove value IsEnabled or set value to true to enable it.")]
+    public AudioFile WarheadMusic { get; set; } = new()
+    {
+        IsEnabled = false,
+        BotName = "Warhead Music",
+        FilePath = Path.Combine(AudioFile.RawFilePath, "warhead_music.ogg"),
+        IsLooped = true,
+        VoiceChannel = VoiceChat.VoiceChatChannel.Intercom,
+        Volume = 75,
+        RoleType = RoleTypeId.Overwatch,
+    };
+
+    /// <summary/>
+    [Description("Plays music when team respawns. Remove value IsEnabled or set value to true to enable it.")]
+    public Dictionary<SpawnableTeamType, AudioFile> TeamMusic { get; set; } = new()
+    {
+        {
+            SpawnableTeamType.NineTailedFox,
+            new()
+            {
+                IsEnabled = false,
+                BotName = "MTF",
+                FilePath = Path.Combine(AudioFile.RawFilePath, "mtf.ogg"),
+                IsLooped = false,
+                VoiceChannel = VoiceChat.VoiceChatChannel.Intercom,
+                Volume = 75,
+                RoleType = RoleTypeId.Overwatch,
+            }
+        },
+        {
+            SpawnableTeamType.ChaosInsurgency,
+            new()
+            {
+                IsEnabled = false,
+                BotName = "CI",
+                FilePath = Path.Combine(AudioFile.RawFilePath, "ci.ogg"),
+                IsLooped = false,
+                VoiceChannel = VoiceChat.VoiceChatChannel.Intercom,
+                Volume = 75,
+                RoleType = RoleTypeId.Overwatch,
             }
         },
     };

@@ -26,7 +26,7 @@ public static class FixNpcServerListDisplay
         {
             foreach (ReferenceHub allHub in ReferenceHub.AllHubs)
             {
-                if (!Player.TryGet(allHub, out var player))
+                if (!Player.TryGet(allHub, out Player? player))
                 {
                     continue;
                 }

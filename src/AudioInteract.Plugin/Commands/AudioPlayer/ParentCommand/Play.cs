@@ -19,9 +19,6 @@ public class Play : ICommand
     public string Description { get; } = "Play music.";
 
     /// <inheritdoc/>
-    public bool SanitizeResponse { get; } = false;
-
-    /// <inheritdoc/>
     public string[] Aliases { get; } = ["p"];
 
     /// <inheritdoc/>

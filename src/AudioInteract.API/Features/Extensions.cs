@@ -18,7 +18,7 @@ public static class Extensions
     {
         get
         {
-            var settedPath = Path.Combine(Paths.Exiled, "Audio");
+            string settedPath = Path.Combine(Paths.Exiled, "Audio");
 
             Directory.CreateDirectory(settedPath);
 
