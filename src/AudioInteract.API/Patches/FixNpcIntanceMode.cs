@@ -31,6 +31,8 @@ public static class FixNpcIntanceMode
 
         if (value != ClientInstanceMode.Unverified && value != ClientInstanceMode.Host && value != ClientInstanceMode.DedicatedServer)
         {
+            Log.Info(npc.Nickname);
+            Log.Info(value);
             return false;
         }
 

@@ -7,8 +7,10 @@ namespace AudioInteract.Features;
 using System.Linq;
 using AudioInteract.API.Events.EventArgs;
 using AudioInteract.Features.Events;
+using CentralAuth;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
 using SCPSLAudioApi.AudioCore;
@@ -57,6 +59,7 @@ public class MusicInstance
 
             Track.TrackFinished += this.OnFinished_ClearIfClearOnFinish;
             Exiled.Events.Handlers.Server.RestartingRound += this.OnRoundRestart_ClearIDs;
+            Exiled.Events.Handlers.Player.Destroying += this.OnDestroying_ClearProperly;
 
             MusicAPI.IsEventsRegistered = true;
         }
@@ -208,6 +211,26 @@ public class MusicInstance
     {
         RecyclablePlayerId.FreeIds.Clear();
         RecyclablePlayerId._autoIncrement = 0;
+    }
+
+    /// <summary>
+    /// Test.
+    /// </summary>
+    /// <param name="ev">Event.</param>
+    public void OnDestroying_ClearProperly(DestroyingEventArgs ev)
+    {
+        if (ev.Player == null)
+        {
+            return;
+        }
+
+        var musicInstance = MusicAPI.MusicInstances.FirstOrDefault(x => x.Npc == ev.Player);
+        if (musicInstance != null)
+        {
+            MusicAPI.DestroyNPC(musicInstance);
+        }
+
+        ev.Player.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.ReadyClient;
     }
 
     /// <summary>
