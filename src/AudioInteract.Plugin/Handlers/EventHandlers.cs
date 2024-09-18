@@ -5,10 +5,8 @@
 namespace AudioInteract.Plugin.Handlers;
 
 using AudioInteract.Features;
-using Exiled.Events.EventArgs.Cassie;
 using Exiled.Events.EventArgs.Server;
 using Exiled.Events.EventArgs.Warhead;
-using CassieEvent = Exiled.Events.Handlers.Cassie;
 using ServerEvent = Exiled.Events.Handlers.Server;
 using WarheadEvent = Exiled.Events.Handlers.Warhead;
 
@@ -75,14 +73,14 @@ public class EventHandlers
             return;
         }
 
-        PluginInstance.Instance.Config.TeamMusic.TryGetValue(ev.NextKnownTeam, out var teamAudio);
+        PluginInstance.Instance.Config.TeamMusic.TryGetValue(ev.NextKnownTeam, out AudioFile? teamAudio);
 
         if (teamAudio == null || !teamAudio.IsEnabled)
         {
             return;
         }
 
-        var npc = MusicAPI.CreateNPC(teamAudio.BotName);
+        MusicInstance npc = MusicAPI.CreateNPC(teamAudio.BotName);
 
         npc.Play(teamAudio);
 
@@ -156,7 +154,7 @@ public class EventHandlers
             return;
         }
 
-        var warheadAudio = PluginInstance.Instance.Config.WarheadMusic;
+        AudioFile warheadAudio = PluginInstance.Instance.Config.WarheadMusic;
 
         if (warheadAudio == null || !warheadAudio.IsEnabled)
         {

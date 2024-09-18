@@ -29,9 +29,6 @@
     <Reference Include="Mirror">
       <HintPath>..\..\..\CompileFiles\Mirror-Publicized.dll</HintPath>
     </Reference>
-    <Reference Include="RueI">
-      <HintPath>..\..\..\CompileFiles\RueI.dll</HintPath>
-    </Reference>
     <Reference Include="SCPSLAudioApi">
       <HintPath>..\..\..\CompileFiles\SCPSLAudioApi.dll</HintPath>
     </Reference>

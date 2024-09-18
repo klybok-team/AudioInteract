@@ -37,9 +37,9 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     {
         Instance = this;
 
-        MusicAPI.RegisterPatches();
-
         this.EventHandlers = new();
+
+        MusicAPI.EnsureInit();
 
         base.OnEnabled();
     }
@@ -48,8 +48,6 @@ public class PluginInstance : Exiled.API.Features.Plugin<Configs.Plugin>
     public override void OnDisabled()
     {
         Instance = null;
-
-        MusicAPI.UnregisterPatches();
 
         this.EventHandlers = null;
 

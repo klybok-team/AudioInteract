@@ -4,7 +4,8 @@
 
 namespace AudioInteract.Features;
 
-using System.Reflection;
+using System.Runtime.CompilerServices;
+using AudioInteract.API.Patches;
 using CentralAuth;
 using Exiled.API.Features;
 using Exiled.API.Features.Components;
@@ -32,10 +33,19 @@ public static class MusicAPI
     /// </summary>
     private static Harmony? harmony;
     private static bool isEventsRegistered = false;
+    private static bool isInit = false;
 
     static MusicAPI()
     {
+        isInit = true;
+
         Startup.SetupDependencies();
+
+        harmony = new(HarmonyID);
+        harmony.PatchAll();
+
+        Exiled.Events.Handlers.Server.RestartingRound += IDFix.OnRestartRound_RefreshID;
+        Log.Info(1);
     }
 
     /// <summary>
@@ -48,47 +58,15 @@ public static class MusicAPI
     /// </summary>
     public static List<MusicInstance> MusicInstances { get; private set; } = new();
 
-    private static List<Assembly> UsingAssemblys { get; set; } = new();
-
     /// <summary>
-    /// Register patches to handle some extra-features of API.
+    /// Ensures that API is properly initialized.
     /// </summary>
-    public static void RegisterPatches()
+    public static void EnsureInit()
     {
-        Assembly callingAssembly = Assembly.GetCallingAssembly();
-
-        if (callingAssembly == null)
+        if (!isInit)
         {
-            return;
+            RuntimeHelpers.RunClassConstructor(typeof(MusicAPI).TypeHandle);
         }
-
-        UsingAssemblys.Add(callingAssembly);
-
-        harmony = new(HarmonyID);
-        harmony.PatchAll();
-    }
-
-    /// <summary>
-    /// Unregister patches.
-    /// </summary>
-    public static void UnregisterPatches()
-    {
-        Assembly callingAssembly = Assembly.GetCallingAssembly();
-
-        if (callingAssembly == null)
-        {
-            return;
-        }
-
-        UsingAssemblys.Remove(callingAssembly);
-
-        if (UsingAssemblys.Count > 0)
-        {
-            return;
-        }
-
-        harmony?.UnpatchAll();
-        harmony = null;
     }
 
     /// <summary>

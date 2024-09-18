@@ -7,7 +7,6 @@ namespace AudioInteract.Features;
 using System.Linq;
 using AudioInteract.API.Events.EventArgs;
 using AudioInteract.Features.Events;
-using CentralAuth;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
@@ -57,9 +56,8 @@ public class MusicInstance
                 Events.Track.OnTrackFinished(ev);
             };
 
-            Track.TrackFinished += this.OnFinished_ClearIfClearOnFinish;
-            Exiled.Events.Handlers.Server.RestartingRound += this.OnRoundRestart_ClearIDs;
-            Exiled.Events.Handlers.Player.Destroying += this.OnDestroying_ClearProperly;
+            Track.TrackFinished += OnFinished_ClearIfClearOnFinish;
+            Exiled.Events.Handlers.Player.Destroying += OnDestroying_ClearProperly;
 
             MusicAPI.IsEventsRegistered = true;
         }
@@ -205,39 +203,22 @@ public class MusicInstance
     }
 
     /// <summary>
-    /// Clear free IDs on round restart.
-    /// </summary>
-    public void OnRoundRestart_ClearIDs()
-    {
-        RecyclablePlayerId.FreeIds.Clear();
-        RecyclablePlayerId._autoIncrement = 0;
-    }
-
-    /// <summary>
-    /// Test.
+    /// Destroy NPC properly.
     /// </summary>
     /// <param name="ev">Event.</param>
-    public void OnDestroying_ClearProperly(DestroyingEventArgs ev)
+    public static void OnDestroying_ClearProperly(DestroyingEventArgs ev)
     {
-        if (ev.Player == null)
+        foreach (MusicInstance? item in MusicAPI.MusicInstances.Where(x => x.Npc == ev.Player))
         {
-            return;
+            MusicAPI.DestroyNPC(item);
         }
-
-        var musicInstance = MusicAPI.MusicInstances.FirstOrDefault(x => x.Npc == ev.Player);
-        if (musicInstance != null)
-        {
-            MusicAPI.DestroyNPC(musicInstance);
-        }
-
-        ev.Player.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.ReadyClient;
     }
 
     /// <summary>
     /// If clear on finish, if finished clear (lmao).
     /// </summary>
     /// <param name="ev">Event.</param>
-    public void OnFinished_ClearIfClearOnFinish(TrackFinishedEventArgs ev)
+    public static void OnFinished_ClearIfClearOnFinish(TrackFinishedEventArgs ev)
     {
         if (ev.MusicInstance == null || !ev.MusicInstance.ClearOnFinish)
         {
