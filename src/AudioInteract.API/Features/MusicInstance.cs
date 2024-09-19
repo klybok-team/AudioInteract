@@ -208,7 +208,7 @@ public class MusicInstance
     /// <param name="ev">Event.</param>
     public static void OnDestroying_ClearProperly(DestroyingEventArgs ev)
     {
-        foreach (MusicInstance? item in MusicAPI.MusicInstances.Where(x => x.Npc == ev.Player))
+        foreach (MusicInstance? item in MusicAPI.MusicInstances.Where(x => x.Npc == ev.Player).ToList())
         {
             MusicAPI.DestroyNPC(item);
         }
