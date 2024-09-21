@@ -59,7 +59,7 @@ public class EventHandlers
     /// <summary>
     /// Gets warhead NPC playing.
     /// </summary>
-    public static MusicInstance? WarheadNPC { get; private set; } = null;
+    public static MusicInstance? WarheadNPC { get; private set; }
 
     /// <summary>
     /// Plays music after team respawn.

@@ -35,13 +35,13 @@ public class Stop : ICommand
             return false;
         }
 
-        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        if (!AudioPlayerParent.BotID.TryGetValue(search_value, out Features.MusicInstance? info))
         {
             response = "Bot not found.";
             return false;
         }
 
-        info.MusicInstance.Stop();
+        info.Stop();
 
         response = $"Successfully stoped playing music.";
         return true;

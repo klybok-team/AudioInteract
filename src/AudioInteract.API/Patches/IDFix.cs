@@ -24,8 +24,8 @@ public static class IDFix
     [HarmonyPrefix]
     public static void Prefix(ref RecyclablePlayerId value)
     {
-        value.Destroy();
-        value = new RecyclablePlayerId(++AutoIncrement);
+        // value.Destroy();
+        // value = new RecyclablePlayerId(++AutoIncrement);
     }
 
     /// <summary>

@@ -35,7 +35,7 @@ public class Volume : ICommand
             return false;
         }
 
-        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        if (!AudioPlayerParent.BotID.TryGetValue(search_value, out Features.MusicInstance? info))
         {
             response = "Bot not found.";
             return false;
@@ -53,7 +53,7 @@ public class Volume : ICommand
             return false;
         }
 
-        info.MusicInstance.Volume = value;
+        info.Volume = value;
 
         response = $"Setted bot volume to {value}.";
         return true;

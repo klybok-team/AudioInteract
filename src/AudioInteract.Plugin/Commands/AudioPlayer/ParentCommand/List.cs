@@ -26,15 +26,15 @@ public class List : ICommand
     {
         response = "Current active bots:";
 
-        if (AudioPlayerParent.IDAudioFile.Count < 1)
+        if (AudioPlayerParent.BotID.Count < 1)
         {
             response += "\nThere currently no active bots.";
             return true;
         }
 
-        foreach (KeyValuePair<int, AudioPlayerParent.AudioInfo> audioFile in AudioPlayerParent.IDAudioFile)
+        foreach (KeyValuePair<int, Features.MusicInstance> audioFile in AudioPlayerParent.BotID)
         {
-            Npc npc = audioFile.Value.MusicInstance.Npc;
+            Npc npc = audioFile.Value.Npc;
 
             response += $"\n\n[Plugin ID: {audioFile.Key}, in-game ID: {npc.Id}] {npc.CustomName}, current InstanceMode: {npc.ReferenceHub.authManager.InstanceMode}";
         }

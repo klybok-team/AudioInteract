@@ -5,6 +5,8 @@
 namespace AudioInteract.Features;
 
 using Exiled.API.Features;
+using NVorbis;
+using NVorbis.Contracts;
 
 /// <summary>
 /// A collection of API methods.
@@ -24,6 +26,26 @@ public static class Extensions
 
             return settedPath;
         }
+    }
+
+    /// <summary>
+    /// Check is this file is even url or VALID and PLAYABLE file.
+    /// </summary>
+    /// <param name="urlOrPath">File path or url.</param>
+    /// <returns>Is this valid URL or path.</returns>
+    public static bool IsValidFileOrValidUrl(this string urlOrPath)
+    {
+        if (Uri.TryCreate(urlOrPath, UriKind.Absolute, out Uri _))
+        {
+            return true;
+        }
+
+        if (File.Exists(urlOrPath) && Path.GetExtension(urlOrPath) == ".ogg")
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -64,5 +86,25 @@ public static class Extensions
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// Get file tags.
+    /// </summary>
+    /// <param name="filePath">Path to file.</param>
+    /// <returns><see cref="ITagData"/>.</returns>
+    public static ITagData GetFileTags(this string filePath)
+    {
+        return new VorbisReader(filePath).Tags;
+    }
+
+    /// <summary>
+    /// Get file tags.
+    /// </summary>
+    /// <param name="audioFile">Audio File.</param>
+    /// <returns><see cref="ITagData"/>.</returns>
+    public static ITagData GetFileTags(this AudioFile audioFile)
+    {
+        return new VorbisReader(audioFile.FilePath).Tags;
     }
 }

@@ -12,10 +12,7 @@ using Exiled.API.Features.Components;
 using HarmonyLib;
 using MEC;
 using Mirror;
-using NVorbis;
-using NVorbis.Contracts;
 using PlayerRoles;
-using SCPSLAudioApi;
 using UnityEngine;
 
 /// <summary>
@@ -39,13 +36,10 @@ public static class MusicAPI
     {
         isInit = true;
 
-        Startup.SetupDependencies();
-
         harmony = new(HarmonyID);
         harmony.PatchAll();
 
         Exiled.Events.Handlers.Server.RestartingRound += IDFix.OnRestartRound_RefreshID;
-        Log.Info(1);
     }
 
     /// <summary>
@@ -67,26 +61,6 @@ public static class MusicAPI
         {
             RuntimeHelpers.RunClassConstructor(typeof(MusicAPI).TypeHandle);
         }
-    }
-
-    /// <summary>
-    /// Get file tags.
-    /// </summary>
-    /// <param name="filePath">Path to file.</param>
-    /// <returns><see cref="ITagData"/>.</returns>
-    public static ITagData GetFileTags(string filePath)
-    {
-        return new VorbisReader(filePath).Tags;
-    }
-
-    /// <summary>
-    /// Get file tags.
-    /// </summary>
-    /// <param name="audioFile">Audio File.</param>
-    /// <returns><see cref="ITagData"/>.</returns>
-    public static ITagData GetFileTags(AudioFile audioFile)
-    {
-        return new VorbisReader(audioFile.FilePath).Tags;
     }
 
     /// <summary>

@@ -17,16 +17,10 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="6.0.0-alpha0384" PrivateAssets="All"/>
-	  <PackageReference Include="Fody" Version="6.8.2" PrivateAssets="All"/>
     <PackageReference Include="EXILEDOFFICIAL" Version="8.11.0" />
     <PackageReference Include="NVorbis" Version="0.10.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" IncludeAssets="All" PrivateAssets="All" />
 	<AdditionalFiles Include="../../stylecop.json" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <None Include="FodyWeavers.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MapEditorReborn">
@@ -54,7 +48,4 @@
     <Reference Include="Pooling" HintPath="$(EXILED_REFERENCES)\Pooling.dll" />
     <Reference Include="Caress" HintPath="$(EXILED_REFERENCES)\Caress.dll" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(TargetPath) $(APPDATA)\EXILED\Plugins\dependencies" />
-  </Target>
 </Project>

@@ -36,7 +36,7 @@ public class Play : ICommand
             return false;
         }
 
-        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        if (!AudioPlayerParent.BotID.TryGetValue(search_value, out MusicInstance? info))
         {
             response = "Bot not found.";
             return false;
@@ -51,13 +51,15 @@ public class Play : ICommand
         // skipping first
         string path = string.Join(" ", arguments.Skip(1));
 
-        if (!Extensions.CheckTrack(path))
+        if (!path.IsValidFileOrValidUrl())
         {
-            response = "Path not valid.";
-            return false;
+            response = $"File on path don't exists.";
+            return true;
         }
 
-        info.MusicInstance.Play(path);
+        info.AllowUrl = true;
+
+        info.Play(path);
 
         response = $"Playing track at path - {path}";
         return true;

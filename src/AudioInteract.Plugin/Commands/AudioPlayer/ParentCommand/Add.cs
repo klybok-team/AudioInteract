@@ -24,11 +24,15 @@ public class Add : ICommand
     /// <inheritdoc/>
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        int botID = AudioPlayerParent.IDAudioFile.Count;
+        AudioPlayerParent.Increment++;
 
-        AudioPlayerParent.IDAudioFile.Add(botID, new(MusicAPI.CreateNPC(arguments.Count > 0 ? string.Join(" ", arguments) : "Bot")));
+        AudioPlayerParent.BotID.Add(AudioPlayerParent.Increment, MusicAPI.CreateNPC(arguments.Count > 0 ? string.Join(" ", arguments) : "Bot"));
 
-        response = $"Created new bot with plugin ID: {botID} and in-game ID: {AudioPlayerParent.IDAudioFile[botID].MusicInstance.Npc.Id}. Bot automatically hidden in list, but display in RA. InstanceMode mod command to unhide.";
+        response = $"\nCreated new bot with:" +
+            $"\nPlugin ID: {AudioPlayerParent.Increment}." +
+            $"\nGame ID: {AudioPlayerParent.BotID[AudioPlayerParent.Increment].Npc.Id}" +
+            $"\nBot automatically hidden in list, but display in RA. InstanceMode mod command to unhide.";
+
         return true;
     }
 }

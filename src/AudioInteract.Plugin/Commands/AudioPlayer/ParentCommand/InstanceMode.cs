@@ -37,7 +37,7 @@ public class InstanceMode : ICommand
             return false;
         }
 
-        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        if (!AudioPlayerParent.BotID.TryGetValue(search_value, out Features.MusicInstance? info))
         {
             response = "Bot not found.";
             return false;
@@ -45,15 +45,15 @@ public class InstanceMode : ICommand
 
         try
         {
-            if (info.MusicInstance.Npc.ReferenceHub.authManager.InstanceMode == ClientInstanceMode.DedicatedServer)
+            if (info.Npc.ReferenceHub.authManager.InstanceMode == ClientInstanceMode.DedicatedServer)
             {
                 response = "Changed InstanceMode to Host.";
-                info.MusicInstance.Npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.Host;
+                info.Npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.Host;
             }
             else
             {
                 response = "Changed InstanceMode to Dedicated Server.";
-                info.MusicInstance.Npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
+                info.Npc.ReferenceHub.authManager.InstanceMode = ClientInstanceMode.DedicatedServer;
             }
 
             return true;

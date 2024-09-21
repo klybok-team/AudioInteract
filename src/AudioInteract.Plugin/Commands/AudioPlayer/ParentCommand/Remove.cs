@@ -36,15 +36,15 @@ public class Remove : ICommand
             return false;
         }
 
-        if (!AudioPlayerParent.IDAudioFile.TryGetValue(search_value, out AudioPlayerParent.AudioInfo? info))
+        if (!AudioPlayerParent.BotID.TryGetValue(search_value, out MusicInstance? info))
         {
             response = "Bot not found.";
             return false;
         }
 
-        bool isSuccess = MusicAPI.DestroyNPC(info.MusicInstance);
+        bool isSuccess = MusicAPI.DestroyNPC(info);
 
-        AudioPlayerParent.IDAudioFile.Remove(search_value);
+        AudioPlayerParent.BotID.Remove(search_value);
 
         response = isSuccess ? "Bot successfully destroyed." : "Error when destroying bot.";
         return isSuccess;

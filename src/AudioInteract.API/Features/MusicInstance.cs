@@ -33,6 +33,8 @@ public class MusicInstance
 
         this.AudioPlayerBase = AudioPlayerBase.Get(linknpc.ReferenceHub);
 
+        this.AudioPlayerBase.AllowUrl = true;
+
         if (!MusicAPI.IsEventsRegistered)
         {
             AudioPlayerBase.OnTrackSelected += (AudioPlayerBase playerBase, bool directPlay, int queuePos, ref string track) =>
@@ -64,6 +66,16 @@ public class MusicInstance
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="MusicInstance"/> class.
+    /// </summary>
+    [Obsolete("Do not register classes like that. You class will be empty. Instead create class with NPC.", true)]
+#pragma warning disable CS8618
+    public MusicInstance()
+    {
+    }
+#pragma warning restore CS8618
+
+    /// <summary>
     /// Gets NPC linked to class.
     /// </summary>
     public Npc Npc { get; private set; }
@@ -78,6 +90,15 @@ public class MusicInstance
         {
             this.AudioPlayerBase.BroadcastTo = value;
         }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether allow playing url or not.
+    /// </summary>
+    public bool AllowUrl
+    {
+        get => this.AudioPlayerBase.AllowUrl;
+        set => this.AudioPlayerBase.AllowUrl = value;
     }
 
     /// <summary>
@@ -301,7 +322,7 @@ public class MusicInstance
     }
 
     /// <summary>
-    /// Immediately starts playing music.
+    /// Immediately starts playing music. API also supports links.
     /// </summary>
     /// <param name="path">Path to file.</param>
     /// <param name="voiceChannel">Voice channel to play.</param>
@@ -309,12 +330,6 @@ public class MusicInstance
     /// <returns>Indicates music is launched or not.</returns>
     public bool Play(string path, VoiceChatChannel voiceChannel = VoiceChatChannel.Intercom, bool loop = false)
     {
-        if (!Extensions.CheckTrack(path))
-        {
-            Log.Error($"Audio file extention doesn't support. ({path})");
-            return false;
-        }
-
         this.AudioPlayerBase.BroadcastChannel = voiceChannel;
 
         this.AudioPlayerBase.Loop = loop;

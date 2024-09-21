@@ -40,4 +40,7 @@
       <HintPath>..\..\..\CompileFiles\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(TargetPath) $(APPDATA)\EXILED\Plugins" />
+  </Target>
 </Project>
