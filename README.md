@@ -16,17 +16,9 @@ Installation:
 
 # API:
 
-Install NVorbis.dll and move it to dependencies folder.
-
-Install SCPSLAudioAPI.dll and move it to dependencies folder.
-
 Install AudioPlayer.API.dll file and move it to dependencies folder.
 
 # Plugin:
-
-Install NVorbis.dll and move it to dependencies folder.
-
-Install SCPSLAudioAPI.dll and move it to dependencies folder.
 
 Install AudioPlayer.API.dll file and move it to dependencies folder.
 
