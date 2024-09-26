@@ -93,15 +93,6 @@ public class MusicInstance
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether allow playing url or not.
-    /// </summary>
-    public bool AllowUrl
-    {
-        get => this.AudioPlayerBase.AllowUrl;
-        set => this.AudioPlayerBase.AllowUrl = value;
-    }
-
-    /// <summary>
     /// Gets or sets players who recive playing music.
     /// </summary>
     [Obsolete("Use PlaysFor with IDs (int). Ignore this if you don't care.")]
@@ -170,7 +161,8 @@ public class MusicInstance
     /// <summary>
     /// Gets a value indicating whether track is finished or not.
     /// </summary>
-    public bool IsFinished => this.AudioPlayerBase.IsFinished || !this.AudioPlayerBase.VorbisReader.Streams.Any();
+    public bool IsFinished => this.AudioPlayerBase.IsFinished
+        || (this.AudioPlayerBase.VorbisReader != null && this.AudioPlayerBase.VorbisReader.Streams != null && !this.AudioPlayerBase.VorbisReader.Streams.Any());
 
     /// <summary>
     /// Gets or sets logs type <see cref="Features.LoggedType"/>.

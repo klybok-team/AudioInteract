@@ -57,8 +57,6 @@ public class Play : ICommand
             return true;
         }
 
-        info.AllowUrl = true;
-
         info.Play(path);
 
         response = $"Playing track at path - {path}";

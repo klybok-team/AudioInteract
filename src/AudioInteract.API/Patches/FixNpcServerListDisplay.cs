@@ -45,6 +45,7 @@ public static class FixNpcServerListDisplay
             ServerConsole._verificationPlayersList = JsonSerialize.ToJson(ServerConsole.PlayersListRaw);
 
             ServerConsole._playersAmount = Player.List.Count(x => !x.IsNPC);
+
             ServerConsole.PlayersListRaw.objects.Clear();
         }
         catch (Exception ex)
