@@ -6,6 +6,7 @@ namespace AudioInteract.Plugin.Commands;
 
 using AudioInteract.Features;
 using CommandSystem;
+using Mirror;
 
 /// <summary>
 /// Add bot.
@@ -31,7 +32,8 @@ public class Add : ICommand
         response = $"\nCreated new bot with:" +
             $"\nPlugin ID: {AudioPlayerParent.Increment}." +
             $"\nGame ID: {AudioPlayerParent.BotID[AudioPlayerParent.Increment].Npc.Id}" +
-            $"\nBot automatically hidden in list, but display in RA. InstanceMode mod command to unhide.";
+            $"\nBot automatically hidden in list. InstanceMode mod command to unhide." +
+            $"\nYou still can use text RA to interact with NPC.";
 
         return true;
     }

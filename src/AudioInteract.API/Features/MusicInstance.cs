@@ -86,16 +86,12 @@ public class MusicInstance
     public List<int> PlaysFor
     {
         get => this.AudioPlayerBase.BroadcastTo;
-        set
-        {
-            this.AudioPlayerBase.BroadcastTo = value;
-        }
+        set => this.AudioPlayerBase.BroadcastTo = value;
     }
 
     /// <summary>
     /// Gets or sets players who recive playing music.
     /// </summary>
-    [Obsolete("Use PlaysFor with IDs (int). Ignore this if you don't care.")]
     public List<Player> PlaysForPlayers
     {
         get

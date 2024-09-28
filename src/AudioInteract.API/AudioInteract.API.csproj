@@ -9,6 +9,8 @@
 	<DebugType>embedded</DebugType>
 	<PlatformTarget>x64</PlatformTarget>
 	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,9 +19,11 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="6.0.0-alpha0384" PrivateAssets="All"/>
-	  <PackageReference Include="Fody" Version="6.8.2" PrivateAssets="All"/>
-    <PackageReference Include="EXILEDOFFICIAL" Version="8.11.0" />
+	<None Include="LICENSE.txt" Pack="true" PackagePath="" />
+	<None Include="README.md" Pack="true" PackagePath="" />
+    <PackageReference Include="Costura.Fody" Version="6.0.0-alpha0384" PrivateAssets="All" />
+    <PackageReference Include="EXILED-OFFICIAL" Version="8.12.2" />
+	<PackageReference Include="Fody" Version="6.8.2" PrivateAssets="All" />
     <PackageReference Include="NVorbis" Version="0.10.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" IncludeAssets="All" PrivateAssets="All" />
 	<AdditionalFiles Include="../../stylecop.json" />
