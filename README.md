@@ -1,6 +1,6 @@
 # Report bugs
 If you issused any bugs with duplicate ID (there currently release 1.0.5, that maybe fixes it)
-Please report in issuses, or in discord, my tag => adarkaz
+Please report in issuses, or in discord, my tag => scpfoundationceo
 
 Easy to interact API with music and plugin.
 
